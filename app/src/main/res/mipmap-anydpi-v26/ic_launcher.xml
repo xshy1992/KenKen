@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/white"/>
+    <foreground>
+        <vector xmlns:android="http://schemas.android.com/apk/res/android"
+            android:width="108dp"
+            android:height="108dp"
+            android:viewportWidth="108"
+            android:viewportHeight="108">
+            
+            <!-- 简约格子图案 -->
+            <path
+                android:fillColor="#212121"
+                android:pathData="M28,28h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M43,28h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M58,28h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M73,28h6v6h-6z"/>
+            
+            <path
+                android:fillColor="#212121"
+                android:pathData="M28,43h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M43,43h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M58,43h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M73,43h6v6h-6z"/>
+            
+            <path
+                android:fillColor="#212121"
+                android:pathData="M28,58h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M43,58h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M58,58h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M73,58h6v6h-6z"/>
+            
+            <path
+                android:fillColor="#212121"
+                android:pathData="M28,73h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M43,73h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M58,73h6v6h-6z"/>
+            <path
+                android:fillColor="#212121"
+                android:pathData="M73,73h6v6h-6z"/>
+            
+            <!-- Outer frame -->
+            <path
+                android:strokeColor="#212121"
+                android:strokeWidth="3"
+                android:fillColor="#00000000"
+                android:pathData="M24,24h60v60h-60z"/>
+        </vector>
+    </foreground>
+</adaptive-icon>

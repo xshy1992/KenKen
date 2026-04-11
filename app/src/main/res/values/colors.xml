@@ -13,4 +13,12 @@
     <color name="black">#333333</color>
     <color name="border">#E5E5E5</color>
     <color name="pencil_highlight">#FFB703</color>
+    
+    <!-- 平滑渐变的难度按钮颜色 -->
+    <color name="difficulty_easy">#A8DADC</color>
+    <color name="difficulty_medium">#95C5D1</color>
+    <color name="difficulty_hard">#81B4C7</color>
+    <color name="difficulty_very_hard">#6EA3BD</color>
+    <color name="difficulty_expert">#5B92B3</color>
+    <color name="difficulty_master">#4881A9</color>
 </resources>

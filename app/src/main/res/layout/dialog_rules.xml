@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/card_bg">
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,8 +13,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📖 聪明格 KenKen 游戏规则"
-            android:textSize="22sp"
+            android:text="📖 聪明格游戏规则"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/text_normal"
             android:gravity="center"
@@ -23,120 +23,74 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="什么是聪明格？"
+            android:text="🎯 游戏目标"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/text_normal"
+            android:textColor="@color/primary_dark"
             android:layout_marginBottom="8dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="聪明格（KenKen）是一种起源于日本的数学逻辑益智游戏，结合了数独和算术运算，锻炼你的逻辑思维和计算能力。"
+            android:text="在网格中填入数字，使得：\n• 每行包含1到N的所有数字，不重复\n• 每列包含1到N的所有数字，不重复"
             android:textSize="15sp"
-            android:textColor="@color/text_light"
+            android:textColor="@color/text_normal"
             android:lineSpacingExtra="4dp"
             android:layout_marginBottom="16dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="游戏规则："
+            android:text="🔢 运算规则"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/text_normal"
+            android:textColor="@color/primary_dark"
             android:layout_marginBottom="8dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1️⃣ 在 N×N 的格子中填入 1 到 N 的数字"
+            android:text="每个粗线框内的数字需要满足框内标注的运算：\n\n➕ 加法（+）：框内数字之和等于目标值\n➖ 减法（-）：框内数字之差等于目标值\n✖️ 乘法（×）：框内数字之积等于目标值\n➗ 除法（÷）：框内数字之商等于目标值\n\n📌 注意：运算顺序不重要，只看结果"
             android:textSize="15sp"
-            android:textColor="@color/text_light"
-            android:lineSpacingExtra="4dp"
-            android:layout_marginBottom="4dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="2️⃣ 每一行、每一列的数字不能重复（类似数独规则）"
-            android:textSize="15sp"
-            android:textColor="@color/text_light"
-            android:lineSpacingExtra="4dp"
-            android:layout_marginBottom="4dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="3️⃣ 每个粗框区域左上角会标注「目标数+运算符」，区域内所有数字运算结果必须等于目标数"
-            android:textSize="15sp"
-            android:textColor="@color/text_light"
-            android:lineSpacingExtra="4dp"
-            android:layout_marginBottom="4dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="4️⃣ 单格粗框直接填标注的数字"
-            android:textSize="15sp"
-            android:textColor="@color/text_light"
+            android:textColor="@color/text_normal"
             android:lineSpacingExtra="4dp"
             android:layout_marginBottom="16dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="3×3 示例图："
-            android:textSize="16sp"
+            android:text="✏️ 草稿功能"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/text_normal"
+            android:textColor="@color/primary_dark"
             android:layout_marginBottom="8dp"/>
 
-        <!-- 3×3 示例图 -->
-        <ImageView
-            android:id="@+id/iv_example"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerInside"
-            android:contentDescription="3x3示例图"
-            android:src="@drawable/kenken_example_3x3"
+            android:layout_height="wrap_content"
+            android:text="点击「草稿」按钮进入草稿模式，可以在方格中标记候选数字，帮助推理。再次点击退出草稿模式。"
+            android:textSize="15sp"
+            android:textColor="@color/text_normal"
+            android:lineSpacingExtra="4dp"
             android:layout_marginBottom="16dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="玩法技巧："
+            android:text="💡 小技巧"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/text_normal"
+            android:textColor="@color/primary_dark"
             android:layout_marginBottom="8dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="• 先填只有一个格子的粗框"
+            android:text="• 先从约束最强的区域开始\n• 利用排除法缩小候选数字范围\n• 草稿功能可以帮你记住可能的数字\n• 遇到困难时可以点击「检查」查看错误"
             android:textSize="15sp"
-            android:textColor="@color/text_light"
+            android:textColor="@color/text_normal"
             android:lineSpacingExtra="4dp"
-            android:layout_marginBottom="4dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="• 利用行列不重复规则排除不可能的数字"
-            android:textSize="15sp"
-            android:textColor="@color/text_light"
-            android:lineSpacingExtra="4dp"
-            android:layout_marginBottom="4dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="• 草稿模式可以帮你标记候选数字"
-            android:textSize="15sp"
-            android:textColor="@color/text_light"
-            android:lineSpacingExtra="4dp"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="16dp"/>
 
     </LinearLayout>
 

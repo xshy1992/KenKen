@@ -178,8 +178,8 @@ public class KenKenView extends View {
                     float spacingX = totalWidth / cols;
                     float spacingY = bottomHalfHeight / rows;
                     
-                    float startX = padding + (selectedCol * cellSize) + leftRightMargin + spacingX/2;
-                    float startY = padding + (selectedRow * cellSize) + cellSize/2 + spacingY/2;
+                    float startX = padding + (j * cellSize) + leftRightMargin + spacingX/2;
+                    float startY = padding + (i * cellSize) + cellSize/2 + spacingY/2;
                     
                     // 计算最大能容纳的文字大小，保证不会超出spacing
                     float maxTextSize = Math.min(spacingX * 0.65f, spacingY * 0.75f);

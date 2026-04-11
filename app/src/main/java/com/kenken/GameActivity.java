@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.kenken.generator.PuzzleGenerator;
 import com.kenken.model.Cell;
@@ -25,8 +25,9 @@ public class GameActivity extends AppCompatActivity {
     private int selectedRow = -1;
     private int selectedCol = -1;
     private boolean pencilMode = false;
+    private LinearLayout containerPencil;
     
-    // 撤销/重做历史记录
+    // 撤销历史记录 - 只保留撤销，删除重做
     private static class Move {
         int row;
         int col;
@@ -44,7 +45,6 @@ public class GameActivity extends AppCompatActivity {
     }
     
     private Stack<Move> undoStack = new Stack<>();
-    private Stack<Move> redoStack = new Stack<>();
     
     // 计时功能
     private TextView timerText;
@@ -77,13 +77,13 @@ public class GameActivity extends AppCompatActivity {
         timerText = findViewById(R.id.timer_text);
         
         // New layout with icon+text vertical containers
-        LinearLayout containerPencil = findViewById(R.id.container_pencil);
+        containerPencil = findViewById(R.id.container_pencil);
         LinearLayout containerUndo = findViewById(R.id.container_undo);
-        LinearLayout containerRedo = findViewById(R.id.container_redo);
         LinearLayout containerReset = findViewById(R.id.container_reset);
         LinearLayout containerClear = findViewById(R.id.container_clear);
         
         pencilMode = false;
+        updatePencilButtonBackground();
         
         // Generate new puzzle
         generateNewPuzzle();
@@ -94,10 +94,15 @@ public class GameActivity extends AppCompatActivity {
             kenKenView.setSelected(row, col);
         });
         
-        // 撤销重做按钮
+        // 草稿按钮 - toggle模式
+        containerPencil.setOnClickListener(v -> {
+            pencilMode = !pencilMode;
+            updatePencilButtonBackground();
+        });
+        
+        // 撤销按钮
         containerUndo.setOnClickListener(v -> undo());
-        containerRedo.setOnClickListener(v -> redo());
-        updateUndoRedoButtons();
+        updateUndoButtonEnabled();
         
         // Number buttons
         int[] btnIds = {
@@ -151,7 +156,6 @@ public class GameActivity extends AppCompatActivity {
                 .setPositiveButton("是", (dialog, which) -> {
                     // 清空所有单元格
                     undoStack.clear();
-                    redoStack.clear();
                     for (int i = 0; i < size; i++) {
                         for (int j = 0; j < size; j++) {
                             puzzle.cells[i][j].clear();
@@ -160,7 +164,7 @@ public class GameActivity extends AppCompatActivity {
                     selectedRow = -1;
                     selectedCol = -1;
                     kenKenView.invalidate();
-                    updateUndoRedoButtons();
+                    updateUndoButtonEnabled();
                     // 重新计时
                     stopTimer();
                     startTimer();
@@ -173,12 +177,22 @@ public class GameActivity extends AppCompatActivity {
         startTimer();
     }
     
+    // 更新草稿按钮背景 - 激活时变深
+    private void updatePencilButtonBackground() {
+        if (containerPencil != null) {
+            if (pencilMode) {
+                containerPencil.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_bg_active));
+            } else {
+                containerPencil.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_bg_normal));
+            }
+        }
+    }
+    
     private void saveMoveForUndo() {
         if (selectedRow >= 0 && selectedCol >= 0) {
             Move move = new Move(selectedRow, selectedCol, puzzle.cells[selectedRow][selectedCol]);
             undoStack.push(move);
-            redoStack.clear();
-            updateUndoRedoButtons();
+            updateUndoButtonEnabled();
         }
     }
     
@@ -193,37 +207,17 @@ public class GameActivity extends AppCompatActivity {
         if (!undoStack.isEmpty()) {
             Move move = undoStack.pop();
             Cell cell = puzzle.cells[move.row][move.col];
-            // Save current state for redo
-            Move redoMove = new Move(move.row, move.col, cell);
-            redoStack.push(redoMove);
             // Restore old state
             cell.value = move.oldValue;
             System.arraycopy(move.oldPencilValues, 0, cell.pencilValues, 0, 10);
             kenKenView.invalidate();
-            updateUndoRedoButtons();
+            updateUndoButtonEnabled();
             checkComplete();
         }
     }
     
-    private void redo() {
-        if (!redoStack.isEmpty()) {
-            Move move = redoStack.pop();
-            Cell cell = puzzle.cells[move.row][move.col];
-            // Save current state for undo
-            Move undoMove = new Move(move.row, move.col, cell);
-            undoStack.push(undoMove);
-            // Restore state
-            cell.value = move.oldValue;
-            System.arraycopy(move.oldPencilValues, 0, cell.pencilValues, 0, 10);
-            kenKenView.invalidate();
-            updateUndoRedoButtons();
-            checkComplete();
-            updateUndoRedoButtons();
-        }
-    }
-    
-    private void updateUndoRedoButtons() {
-        // 不需要禁用容器，容器一直可点击
+    private void updateUndoButtonEnabled() {
+        // 不需要禁用，一直可点击
     }
     
     private void startTimer() {
@@ -243,8 +237,7 @@ public class GameActivity extends AppCompatActivity {
         selectedRow = -1;
         selectedCol = -1;
         undoStack.clear();
-        redoStack.clear();
-        updateUndoRedoButtons();
+        updateUndoButtonEnabled();
         kenKenView.setPuzzle(puzzle);
         // 重启计时
         stopTimer();

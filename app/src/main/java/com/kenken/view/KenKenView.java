@@ -104,11 +104,9 @@ public class KenKenView extends View {
     
     @Override
     protected void onDraw(Canvas canvas) {
-        if (puzzle == null || puzzle.cells == null) return;
+        if (puzzle == null) return;
         
         int viewSize = getWidth();
-        if (viewSize <= 0) return;
-        
         cellSize = (viewSize - 2 * padding) / (float)puzzle.size;
         
         // Fill cells
@@ -156,12 +154,12 @@ public class KenKenView extends View {
                     numberPaint.setTextSize(Math.max(textSize, minTextSize));
                     canvas.drawText(String.valueOf(cell.value), centerX, centerY + numberPaint.getTextSize()/3, numberPaint);
                 } else if (cell.hasPencilMarks()) {
-                    // Draw pencil marks strictly in bottom 50% of current cell (i,j)
+                    // Draw pencil marks strictly in bottom 50% of cell
                     int availableNumbers = 0;
                     for (int num = 1; num <= puzzle.size; num++) {
                         if (cell.pencilValues[num]) availableNumbers++;
                     }
-                    if (availableNumbers == 0) continue;
+                    if (availableNumbers == 0) return;
                     
                     // 严格计算行列，保证所有数字都在方格下半部分
                     int cols;
@@ -172,7 +170,7 @@ public class KenKenView extends View {
                     
                     int rows = (int) Math.ceil((double) puzzle.size / cols);
                     
-                    // 严格约束在下半部分 - 使用当前cell(i,j)坐标，不是selectedRow/selectedCol！
+                    // 严格约束在下半部分
                     float bottomHalfHeight = cellSize * 0.48f; // 只占下半部分48%，留有边距不碰边框
                     float leftRightMargin = cellSize * 0.05f; // 左右边距各5%
                     float totalWidth = cellSize - 2 * leftRightMargin;
@@ -180,8 +178,8 @@ public class KenKenView extends View {
                     float spacingX = totalWidth / cols;
                     float spacingY = bottomHalfHeight / rows;
                     
-                    float startX = padding + (j * cellSize) + leftRightMargin + spacingX/2;
-                    float startY = padding + (i * cellSize) + cellSize/2 + spacingY/2;
+                    float startX = padding + (selectedCol * cellSize) + leftRightMargin + spacingX/2;
+                    float startY = padding + (selectedRow * cellSize) + cellSize/2 + spacingY/2;
                     
                     // 计算最大能容纳的文字大小，保证不会超出spacing
                     float maxTextSize = Math.min(spacingX * 0.65f, spacingY * 0.75f);

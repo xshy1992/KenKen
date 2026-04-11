@@ -42,7 +42,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/btn_bg_selector"
+            android:background="@drawable/btn_bg_normal"
             android:padding="6dp"
             android:layout_marginEnd="6dp"
             android:clickable="true"
@@ -69,7 +69,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/btn_bg_selector"
+            android:background="@drawable/btn_bg_normal"
             android:padding="6dp"
             android:layout_marginEnd="6dp"
             android:clickable="true"
@@ -87,16 +87,16 @@
                 android:textColor="@color/white"/>
         </LinearLayout>
 
-        <!-- 重做按钮 -->
+        <!-- 清除按钮 -->
         <LinearLayout
-            android:id="@+id/container_redo"
+            android:id="@+id/container_clear"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:minHeight="60dp"
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/btn_bg_selector"
+            android:background="@drawable/btn_bg_normal"
             android:padding="6dp"
             android:layout_marginEnd="6dp"
             android:clickable="true"
@@ -104,17 +104,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="↷"
+                android:text="🧹"
                 android:textSize="22sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="重做"
+                android:text="清除"
                 android:textSize="12sp"
                 android:textColor="@color/white"/>
         </LinearLayout>
 
-        <!-- 重置按钮 -->
+        <!-- 重置按钮 - 放在最右边 -->
         <LinearLayout
             android:id="@+id/container_reset"
             android:layout_width="0dp"
@@ -123,9 +123,8 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/btn_bg_selector"
+            android:background="@drawable/btn_bg_normal"
             android:padding="6dp"
-            android:layout_marginEnd="6dp"
             android:clickable="true"
             android:focusable="true">
             <TextView
@@ -140,35 +139,9 @@
                 android:textSize="12sp"
                 android:textColor="@color/white"/>
         </LinearLayout>
-
-        <!-- 清空按钮 -->
-        <LinearLayout
-            android:id="@+id/container_clear"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:minHeight="60dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/btn_bg_selector"
-            android:padding="6dp"
-            android:clickable="true"
-            android:focusable="true">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🗑️"
-                android:textSize="22sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="清空"
-                android:textSize="12sp"
-                android:textColor="@color/white"/>
-        </LinearLayout>
     </LinearLayout>
 
-    <!-- First row: 1-7 -->
+    <!-- First row: 1-6 一行6个 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -259,6 +232,15 @@
             android:layout_marginEnd="4dp"
             android:background="@drawable/btn_bg_selector"
             android:backgroundTint="@color/primary"/>
+    </LinearLayout>
+
+    <!-- Second row: 7-9 + 3个占位，总共6个 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="6dp"
+        android:gravity="center">
 
         <Button
             android:id="@+id/btn_7"
@@ -273,15 +255,6 @@
             android:layout_marginEnd="4dp"
             android:background="@drawable/btn_bg_selector"
             android:backgroundTint="@color/primary"/>
-    </LinearLayout>
-
-    <!-- Second row: 8-9 (empty spacers keep alignment) -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="6dp"
-        android:gravity="center">
 
         <Button
             android:id="@+id/btn_8"
@@ -311,21 +284,7 @@
             android:background="@drawable/btn_bg_selector"
             android:backgroundTint="@color/primary"/>
 
-        <!-- 5 empty spacers to fill the row (total 7 columns) -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:background="@color/background"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:background="@color/background"/>
+        <!-- 3 empty spacers to fill the row (total 6 columns) -->
         <View
             android:layout_width="0dp"
             android:layout_height="56dp"

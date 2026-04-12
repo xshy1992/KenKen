@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace "com.kenken"
+    namespace "com.shy.kenken"
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.kenken"
+        applicationId "com.shy.kenken"
         minSdk 21
         targetSdk 33
         versionCode 1

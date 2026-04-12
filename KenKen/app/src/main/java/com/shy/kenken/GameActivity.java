@@ -1,4 +1,4 @@
-package com.kenken;
+package com.shy.kenken;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -11,10 +11,10 @@ import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.kenken.generator.PuzzleGenerator;
-import com.kenken.model.Cell;
-import com.kenken.model.Puzzle;
-import com.kenken.view.KenKenView;
+import com.shy.kenken.generator.PuzzleGenerator;
+import com.shy.kenken.model.Cell;
+import com.shy.kenken.model.Puzzle;
+import com.shy.kenken.view.KenKenView;
 
 import java.util.Stack;
 

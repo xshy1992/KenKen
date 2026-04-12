@@ -1,8 +1,8 @@
-package com.kenken.generator;
+package com.shy.kenken.generator;
 
-import com.kenken.model.Cage;
-import com.kenken.model.Cell;
-import com.kenken.model.Puzzle;
+import com.shy.kenken.model.Cage;
+import com.shy.kenken.model.Cell;
+import com.shy.kenken.model.Puzzle;
 
 import java.util.ArrayList;
 import java.util.Collections;

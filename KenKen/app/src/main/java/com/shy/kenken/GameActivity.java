@@ -96,7 +96,7 @@ public class GameActivity extends AppCompatActivity {
         updateUndoButtonEnabled();
         
         // Number buttons
-        int[] btnIds = {
+        int[] btnIds = new int[]{
             R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4,
             R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9
         };

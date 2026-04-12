@@ -161,10 +161,15 @@ public class GameActivity extends AppCompatActivity {
                 // 需要显示，设置正常样式
                 btn7.setTextColor(getResources().getColor(android.R.color.white));
                 btn7.setBackgroundTintList(getResources().getColorStateList(R.color.primary));
+                btn7.setClickable(true);
+                btn7.setEnabled(true);
             } else {
-                // 不需要显示，透明占位
+                // 不需要显示，完全透明占位
                 btn7.setTextColor(getResources().getColor(android.R.color.transparent));
                 btn7.setBackgroundColor(getResources().getColor(R.color.background));
+                btn7.setBackgroundTintList(getResources().getColorStateList(R.color.background));
+                btn7.setClickable(false);
+                btn7.setEnabled(false);
             }
         }
         // btn8: 需要size >=8
@@ -173,9 +178,14 @@ public class GameActivity extends AppCompatActivity {
             if (size >= 8) {
                 btn8.setTextColor(getResources().getColor(android.R.color.white));
                 btn8.setBackgroundTintList(getResources().getColorStateList(R.color.primary));
+                btn8.setClickable(true);
+                btn8.setEnabled(true);
             } else {
                 btn8.setTextColor(getResources().getColor(android.R.color.transparent));
                 btn8.setBackgroundColor(getResources().getColor(R.color.background));
+                btn8.setBackgroundTintList(getResources().getColorStateList(R.color.background));
+                btn8.setClickable(false);
+                btn8.setEnabled(false);
             }
         }
         // btn9: 需要size >=9
@@ -184,9 +194,14 @@ public class GameActivity extends AppCompatActivity {
             if (size >= 9) {
                 btn9.setTextColor(getResources().getColor(android.R.color.white));
                 btn9.setBackgroundTintList(getResources().getColorStateList(R.color.primary));
+                btn9.setClickable(true);
+                btn9.setEnabled(true);
             } else {
                 btn9.setTextColor(getResources().getColor(android.R.color.transparent));
                 btn9.setBackgroundColor(getResources().getColor(R.color.background));
+                btn9.setBackgroundTintList(getResources().getColorStateList(R.color.background));
+                btn9.setClickable(false);
+                btn9.setEnabled(false);
             }
         }
         

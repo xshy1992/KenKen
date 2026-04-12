@@ -16,13 +16,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        MaterialButton easyBtn = findViewById(R.id.btn_easy);
-        MaterialButton mediumBtn = findViewById(R.id.btn_medium);
-        MaterialButton hardBtn = findViewById(R.id.btn_hard);
-        MaterialButton veryHardBtn = findViewById(R.id.btn_very_hard);
-        MaterialButton expertBtn = findViewById(R.id.btn_expert);
-        MaterialButton masterBtn = findViewById(R.id.btn_master);
-        MaterialButton rulesBtn = findViewById(R.id.btn_rules);
+        MaterialButton easyBtn = (MaterialButton) findViewById(R.id.btn_easy);
+        MaterialButton mediumBtn = (MaterialButton) findViewById(R.id.btn_medium);
+        MaterialButton hardBtn = (MaterialButton) findViewById(R.id.btn_hard);
+        MaterialButton veryHardBtn = (MaterialButton) findViewById(R.id.btn_very_hard);
+        MaterialButton expertBtn = (MaterialButton) findViewById(R.id.btn_expert);
+        MaterialButton masterBtn = (MaterialButton) findViewById(R.id.btn_master);
+        MaterialButton rulesBtn = (MaterialButton) findViewById(R.id.btn_rules);
         
         easyBtn.setOnClickListener(v -> startGame(4));
         mediumBtn.setOnClickListener(v -> startGame(5));

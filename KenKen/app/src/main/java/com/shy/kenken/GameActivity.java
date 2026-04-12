@@ -148,10 +148,31 @@ public class GameActivity extends AppCompatActivity {
         Button placeholder2 = findViewById(R.id.placeholder_2);
         Button placeholder3 = findViewById(R.id.placeholder_3);
         
-        // 所有占位按钮始终可见并保持透明
-        if (placeholder1 != null) placeholder1.setVisibility(View.VISIBLE);
-        if (placeholder2 != null) placeholder2.setVisibility(View.VISIBLE);
-        if (placeholder3 != null) placeholder3.setVisibility(View.VISIBLE);
+        // 所有占位按钮始终可见并保持完全透明
+        if (placeholder1 != null) {
+            placeholder1.setVisibility(View.VISIBLE);
+            placeholder1.setTextColor(getResources().getColor(android.R.color.transparent));
+            placeholder1.setBackgroundColor(getResources().getColor(R.color.background));
+            placeholder1.setBackgroundTintList(getResources().getColorStateList(R.color.background));
+            placeholder1.setClickable(false);
+            placeholder1.setEnabled(false);
+        }
+        if (placeholder2 != null) {
+            placeholder2.setVisibility(View.VISIBLE);
+            placeholder2.setTextColor(getResources().getColor(android.R.color.transparent));
+            placeholder2.setBackgroundColor(getResources().getColor(R.color.background));
+            placeholder2.setBackgroundTintList(getResources().getColorStateList(R.color.background));
+            placeholder2.setClickable(false);
+            placeholder2.setEnabled(false);
+        }
+        if (placeholder3 != null) {
+            placeholder3.setVisibility(View.VISIBLE);
+            placeholder3.setTextColor(getResources().getColor(android.R.color.transparent));
+            placeholder3.setBackgroundColor(getResources().getColor(R.color.background));
+            placeholder3.setBackgroundTintList(getResources().getColorStateList(R.color.background));
+            placeholder3.setClickable(false);
+            placeholder3.setEnabled(false);
+        }
         
         // 根据size设置按钮是否激活
         // btn7: 需要size >=7，否则透明

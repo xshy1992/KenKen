@@ -233,43 +233,44 @@ public class PuzzleGenerator {
     }
     
     private void addCluesUntilUniqueSolution(Puzzle puzzle, int[][] solution) {
-        // 获取所有空白单元格
-        List<int[]> emptyCells = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (puzzle.cells[i][j].value == 0) {
-                    emptyCells.add(new int[]{i, j});
+        // 业界最佳实践：只保留单格cage的数字作为提示
+        // 单格cage的operation是'#'，target就是该格子的正确答案
+        // 这样既保证了谜题质量，又避免了随机性
+        
+        for (Cage cage : puzzle.cages) {
+            if (cage.size() == 1) {
+                // 单格cage，保留其target作为提示
+                Cell cell = cage.cells.get(0);
+                cell.value = cage.target;
+            }
+        }
+        
+        // 对于小尺寸（<7），继续添加提示直到唯一解
+        // 这样可以保证小尺寸谜题有唯一解
+        if (size < 7) {
+            List<int[]> emptyCells = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    if (puzzle.cells[i][j].value == 0) {
+                        emptyCells.add(new int[]{i, j});
+                    }
                 }
             }
-        }
-        
-        // 随机打乱顺序
-        Collections.shuffle(emptyCells, random);
-        
-        // 对于大尺寸（>=7），不做唯一解检查，直接添加固定数量的提示，避免崩溃
-        if (size >= 7) {
-            int cluesToAdd = Math.min(size * 2, emptyCells.size());
-            for (int i = 0; i < cluesToAdd && i < emptyCells.size(); i++) {
-                int[] cell = emptyCells.get(i);
+            
+            Collections.shuffle(emptyCells, random);
+            
+            for (int[] cell : emptyCells) {
                 int r = cell[0];
                 int c = cell[1];
+                
+                // 检查是否已经有唯一解
+                if (hasUniqueSolution(puzzle)) {
+                    break;
+                }
+                
+                // 添加提示
                 puzzle.cells[r][c].value = solution[r][c];
             }
-            return;
-        }
-        
-        // 小尺寸逐步添加提示直到唯一解
-        for (int[] cell : emptyCells) {
-            int r = cell[0];
-            int c = cell[1];
-            
-            // 检查是否已经有唯一解
-            if (hasUniqueSolution(puzzle)) {
-                break;
-            }
-            
-            // 添加提示
-            puzzle.cells[r][c].value = solution[r][c];
         }
     }
     

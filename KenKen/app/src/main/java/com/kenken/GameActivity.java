@@ -152,9 +152,9 @@ public class GameActivity extends AppCompatActivity {
                 btn7.setTextColor(getResources().getColor(android.R.color.white));
                 btn7.setBackgroundTintList(getResources().getColorStateList(R.color.primary));
             } else {
-                // 不需要显示，透明占位
+                // 不需要显示，完全透明占位
                 btn7.setTextColor(getResources().getColor(android.R.color.transparent));
-                btn7.setBackgroundColor(getResources().getColor(R.color.background));
+                btn7.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             }
         }
         // btn8: 需要size >=8
@@ -165,7 +165,7 @@ public class GameActivity extends AppCompatActivity {
                 btn8.setBackgroundTintList(getResources().getColorStateList(R.color.primary));
             } else {
                 btn8.setTextColor(getResources().getColor(android.R.color.transparent));
-                btn8.setBackgroundColor(getResources().getColor(R.color.background));
+                btn8.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             }
         }
         // btn9: 需要size >=9
@@ -176,7 +176,7 @@ public class GameActivity extends AppCompatActivity {
                 btn9.setBackgroundTintList(getResources().getColorStateList(R.color.primary));
             } else {
                 btn9.setTextColor(getResources().getColor(android.R.color.transparent));
-                btn9.setBackgroundColor(getResources().getColor(R.color.background));
+                btn9.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             }
         }
         

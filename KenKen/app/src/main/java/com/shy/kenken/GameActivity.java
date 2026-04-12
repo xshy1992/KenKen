@@ -12,6 +12,7 @@ import android.widget.ToggleButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.shy.kenken.generator.PuzzleGenerator;
+import com.shy.kenken.model.Cage;
 import com.shy.kenken.model.Cell;
 import com.shy.kenken.model.Puzzle;
 import com.shy.kenken.view.KenKenView;
@@ -194,12 +195,18 @@ public class GameActivity extends AppCompatActivity {
         containerReset.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
                 .setTitle("重置游戏")
-                .setMessage("确定要清空所有方格并重置计时吗？")
+                .setMessage("确定要清空所有用户填充内容并重置计时吗？默认提示会保留。")
                 .setPositiveButton("是", (dialog, which) -> {
-                    // 清空所有方格
+                    // 只清空用户填充内容，保留默认填充（单格cage）
                     for (int i = 0; i < puzzle.size; i++) {
                         for (int j = 0; j < puzzle.size; j++) {
-                            puzzle.cells[i][j].clear();
+                            // 判断这个单元格所在的cage是否是单格
+                            Cage cage = puzzle.getCage(i, j);
+                            if (cage != null && cage.size() != 1) {
+                                // 多格cage，清空用户填充内容
+                                puzzle.cells[i][j].clear();
+                            }
+                            // 单格cage，保留默认填充内容，不清除
                         }
                     }
                     // 重置选中状态

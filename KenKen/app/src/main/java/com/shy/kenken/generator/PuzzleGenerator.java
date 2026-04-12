@@ -233,7 +233,16 @@ public class PuzzleGenerator {
     }
     
     private void addCluesUntilUniqueSolution(Puzzle puzzle, int[][] solution) {
-        // 获取所有空白单元格
+        // 第一步：只填充单格cage（操作符为'#'）
+        for (Cage cage : puzzle.cages) {
+            if (cage.size() == 1) {
+                // 单格cage，填充其目标值
+                Cell cell = cage.cells.get(0);
+                cell.value = solution[cell.row][cell.col];
+            }
+        }
+        
+        // 获取所有空白单元格（多格cage）
         List<int[]> emptyCells = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -246,19 +255,12 @@ public class PuzzleGenerator {
         // 随机打乱顺序
         Collections.shuffle(emptyCells, random);
         
-        // 对于大尺寸（>=7），不做唯一解检查，直接添加固定数量的提示，避免崩溃
+        // 对于大尺寸（>=7），只保留单格提示，不再添加额外提示，避免崩溃
         if (size >= 7) {
-            int cluesToAdd = Math.min(size * 2, emptyCells.size());
-            for (int i = 0; i < cluesToAdd && i < emptyCells.size(); i++) {
-                int[] cell = emptyCells.get(i);
-                int r = cell[0];
-                int c = cell[1];
-                puzzle.cells[r][c].value = solution[r][c];
-            }
             return;
         }
         
-        // 小尺寸逐步添加提示直到唯一解
+        // 小尺寸：如果填充完单格后还没有唯一解，逐步添加额外提示直到唯一解
         for (int[] cell : emptyCells) {
             int r = cell[0];
             int c = cell[1];
@@ -268,7 +270,7 @@ public class PuzzleGenerator {
                 break;
             }
             
-            // 添加提示
+            // 添加额外提示
             puzzle.cells[r][c].value = solution[r][c];
         }
     }

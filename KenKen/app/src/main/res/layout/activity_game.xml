@@ -17,7 +17,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"/>
 
-    <com.kenken.view.KenKenView
+    <com.shy.kenken.view.KenKenView
         android:id="@+id/kenken_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"

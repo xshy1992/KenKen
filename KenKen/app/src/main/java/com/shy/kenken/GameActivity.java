@@ -240,7 +240,7 @@ public class GameActivity extends AppCompatActivity {
     
     // 更新草稿按钮背景 - 激活时变深
     private void updatePencilButtonBackground() {
-        LinearLayout containerPencil = findViewById(R.id.container_pencil);
+        LinearLayout containerPencil = (LinearLayout) findViewById(R.id.container_pencil);
         if (containerPencil != null) {
             try {
                 if (pencilMode) {

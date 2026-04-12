@@ -1,4 +1,4 @@
-package com.kenken;
+package com.shy.kenken;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -11,10 +11,10 @@ import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.kenken.generator.PuzzleGenerator;
-import com.kenken.model.Cell;
-import com.kenken.model.Puzzle;
-import com.kenken.view.KenKenView;
+import com.shy.kenken.generator.PuzzleGenerator;
+import com.shy.kenken.model.Cell;
+import com.shy.kenken.model.Puzzle;
+import com.shy.kenken.view.KenKenView;
 
 import java.util.Stack;
 
@@ -212,9 +212,9 @@ public class GameActivity extends AppCompatActivity {
                         }
                     }
                     // 恢复单格cage的提示（默认填充）
-                    for (com.kenken.model.Cage cage : puzzle.cages) {
+                    for (com.shy.kenken.model.Cage cage : puzzle.cages) {
                         if (cage.size() == 1) {
-                            com.kenken.model.Cell cell = cage.cells.get(0);
+                            com.shy.kenken.model.Cell cell = cage.cells.get(0);
                             cell.value = cage.target;
                         }
                     }

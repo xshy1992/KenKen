@@ -1,4 +1,4 @@
-package com.kenken.view;
+package com.shy.kenken.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,9 +11,9 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.kenken.model.Cage;
-import com.kenken.model.Cell;
-import com.kenken.model.Puzzle;
+import com.shy.kenken.model.Cage;
+import com.shy.kenken.model.Cell;
+import com.shy.kenken.model.Puzzle;
 
 public class KenKenView extends View {
     private Puzzle puzzle;

@@ -211,6 +211,13 @@ public class GameActivity extends AppCompatActivity {
                             puzzle.cells[i][j].clear();
                         }
                     }
+                    // 恢复单格cage的提示（默认填充）
+                    for (com.kenken.model.Cage cage : puzzle.cages) {
+                        if (cage.size() == 1) {
+                            com.kenken.model.Cell cell = cage.cells.get(0);
+                            cell.value = cage.target;
+                        }
+                    }
                     // 重置选中状态
                     selectedRow = -1;
                     selectedCol = -1;

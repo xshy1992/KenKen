@@ -102,31 +102,37 @@ public class GameActivity extends AppCompatActivity {
             R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9
         };
         
-        for (int i = 0; i < btnIds.length && i < size; i++) {
+        // 所有按钮都保持可见占位，不需要的设置为透明
+        // 这样保证两行高度一致，对齐正确
+        for (int i = 0; i < btnIds.length; i++) {
             final int num = i + 1;
             Button btn = findViewById(btnIds[i]);
             btn.setVisibility(View.VISIBLE);
-            btn.setOnClickListener(v -> {
-                if (selectedRow >= 0 && selectedCol >= 0) {
-                    // 保存当前状态用于撤销
-                    saveMoveForUndo();
-                    if (pencilMode) {
-                        // Toggle pencil mark
-                        puzzle.cells[selectedRow][selectedCol].pencilValues[num] = 
-                            !puzzle.cells[selectedRow][selectedCol].pencilValues[num];
-                    } else {
-                        puzzle.cells[selectedRow][selectedCol].value = num;
+            if (i < size) {
+                // 需要显示，设置正常样式
+                btn.setTextColor(getResources().getColor(android.R.color.white));
+                btn.setBackgroundTintList(getResources().getColorStateList(R.color.primary));
+                btn.setOnClickListener(v -> {
+                    if (selectedRow >= 0 && selectedCol >= 0) {
+                        // 保存当前状态用于撤销
+                        saveMoveForUndo();
+                        if (pencilMode) {
+                            // Toggle pencil mark
+                            puzzle.cells[selectedRow][selectedCol].pencilValues[num] = 
+                                !puzzle.cells[selectedRow][selectedCol].pencilValues[num];
+                        } else {
+                            puzzle.cells[selectedRow][selectedCol].value = num;
+                        }
+                        kenKenView.invalidate();
+                        checkComplete();
                     }
-                    kenKenView.invalidate();
-                    checkComplete();
-                }
-            });
-        }
-        
-        // Hide extra buttons for smaller grids
-        for (int i = size; i < btnIds.length; i++) {
-            Button btn = findViewById(btnIds[i]);
-            btn.setVisibility(View.GONE);
+                });
+            } else {
+                // 不需要显示，透明占位
+                btn.setTextColor(getResources().getColor(android.R.color.transparent));
+                btn.setBackgroundColor(getResources().getColor(R.color.background));
+                btn.setOnClickListener(null);
+            }
         }
         
         // 控制第二行按钮样式：始终保持6个按钮，不需要的按钮保持透明占位

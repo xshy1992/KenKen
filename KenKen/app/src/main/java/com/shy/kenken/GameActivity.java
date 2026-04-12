@@ -128,10 +128,12 @@ public class GameActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                // 不需要显示，透明占位
+                // 不需要显示，完全透明占位
                 btn.setTextColor(getResources().getColor(android.R.color.transparent));
                 btn.setBackgroundColor(getResources().getColor(R.color.background));
                 btn.setBackgroundTintList(getResources().getColorStateList(R.color.background));
+                btn.setClickable(false);
+                btn.setEnabled(false);
                 btn.setOnClickListener(null);
             }
         }

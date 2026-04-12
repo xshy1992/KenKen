@@ -65,13 +65,13 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         
         size = getIntent().getIntExtra("size", 4);
-        timerText = findViewById(R.id.timer_text);
-        kenKenView = findViewById(R.id.kenken_view);
+        timerText = (TextView) findViewById(R.id.timer_text);
+        kenKenView = (KenKenView) findViewById(R.id.kenken_view);
         
-        LinearLayout containerPencil = findViewById(R.id.container_pencil);
-        LinearLayout containerUndo = findViewById(R.id.container_undo);
-        LinearLayout containerReset = findViewById(R.id.container_reset);
-        LinearLayout containerClear = findViewById(R.id.container_clear);
+        LinearLayout containerPencil = (LinearLayout) findViewById(R.id.container_pencil);
+        LinearLayout containerUndo = (LinearLayout) findViewById(R.id.container_undo);
+        LinearLayout containerReset = (LinearLayout) findViewById(R.id.container_reset);
+        LinearLayout containerClear = (LinearLayout) findViewById(R.id.container_clear);
         
         pencilMode = false;
         updatePencilButtonBackground();
@@ -103,7 +103,7 @@ public class GameActivity extends AppCompatActivity {
         
         for (int i = 0; i < btnIds.length && i < size; i++) {
             final int num = i + 1;
-            Button btn = findViewById(btnIds[i]);
+            Button btn = (Button) findViewById(btnIds[i]);
             btn.setVisibility(View.VISIBLE);
             btn.setOnClickListener(v -> {
                 if (selectedRow >= 0 && selectedCol >= 0) {
@@ -124,19 +124,19 @@ public class GameActivity extends AppCompatActivity {
         
         // Hide extra buttons for smaller grids
         for (int i = size; i < btnIds.length; i++) {
-            Button btn = findViewById(btnIds[i]);
+            Button btn = (Button) findViewById(btnIds[i]);
             btn.setVisibility(View.GONE);
         }
         
         // 控制第二行按钮样式：始终保持6个按钮，不需要的按钮保持透明占位
         // 第二行布局：btn_7(位置1), btn_8(位置2), btn_9(位置3), placeholder_1(位置4), placeholder_2(位置5), placeholder_3(位置6)
         // 总共6列，所有按钮都可见，不需要的保持透明，保证第二行高度和宽度一致
-        Button btn7 = findViewById(R.id.btn_7);
-        Button btn8 = findViewById(R.id.btn_8);
-        Button btn9 = findViewById(R.id.btn_9);
-        Button placeholder1 = findViewById(R.id.placeholder_1);
-        Button placeholder2 = findViewById(R.id.placeholder_2);
-        Button placeholder3 = findViewById(R.id.placeholder_3);
+        Button btn7 = (Button) findViewById(R.id.btn_7);
+        Button btn8 = (Button) findViewById(R.id.btn_8);
+        Button btn9 = (Button) findViewById(R.id.btn_9);
+        Button placeholder1 = (Button) findViewById(R.id.placeholder_1);
+        Button placeholder2 = (Button) findViewById(R.id.placeholder_2);
+        Button placeholder3 = (Button) findViewById(R.id.placeholder_3);
         
         // 所有占位按钮始终可见并保持完全透明
         if (placeholder1 != null) {

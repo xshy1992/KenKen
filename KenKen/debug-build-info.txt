@@ -1,0 +1,16 @@
+KenKen Debug Build 信息
+========================
+
+由于构建环境复杂，无法快速生成debug版本。
+
+当前GitHub Release中已有签名版可用：
+
+下载地址：
+https://github.com/xshy1992/KenKen/releases/download/v0.0.1/KenKen-v0.0.1-signed-fixed.apk
+
+文件大小：4.4MB
+状态：已签名，可直接安装
+
+其他可用APK：
+- KenKen-v0.0.1.apk
+- KenKen-v0.0.1-release.apk

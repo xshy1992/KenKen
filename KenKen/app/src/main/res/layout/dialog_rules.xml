@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📖 聪明格游戏规则"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_normal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🎯 游戏目标"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_dark"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="在网格中填入数字，使得：\n• 每行包含1到N的所有数字，不重复\n• 每列包含1到N的所有数字，不重复"
+            android:textSize="15sp"
+            android:textColor="@color/text_normal"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔢 运算规则"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_dark"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="每个粗线框内的数字需要满足框内标注的运算：\n\n➕ 加法（+）：框内数字之和等于目标值\n➖ 减法（-）：框内数字之差等于目标值\n✖️ 乘法（×）：框内数字之积等于目标值\n➗ 除法（÷）：框内数字之商等于目标值\n\n📌 注意：运算顺序不重要，只看结果"
+            android:textSize="15sp"
+            android:textColor="@color/text_normal"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="✏️ 草稿功能"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_dark"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="点击「草稿」按钮进入草稿模式，可以在方格中标记候选数字，帮助推理。再次点击退出草稿模式。"
+            android:textSize="15sp"
+            android:textColor="@color/text_normal"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="💡 小技巧"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_dark"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• 先从约束最强的区域开始\n• 利用排除法缩小候选数字范围\n• 草稿功能可以帮你记住可能的数字\n• 遇到困难时可以点击「检查」查看错误"
+            android:textSize="15sp"
+            android:textColor="@color/text_normal"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="16dp"/>
+
+    </LinearLayout>
+
+</ScrollView>

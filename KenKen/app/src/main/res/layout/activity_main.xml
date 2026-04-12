@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🧩 聪明格"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_normal"
+            android:gravity="center"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="选择难度开始游戏"
+            android:textSize="16sp"
+            android:textColor="@color/text_light"
+            android:gravity="center"
+            android:layout_marginBottom="32dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_easy"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="🍃 简单 4×4"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:cornerRadius="28dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/difficulty_easy"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_medium"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="🌸 中等 5×5"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:cornerRadius="28dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/difficulty_medium"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_hard"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="🌿 困难 6×6"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:cornerRadius="28dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/difficulty_hard"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_very_hard"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="🌾 极难 7×7"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:cornerRadius="28dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/difficulty_very_hard"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_expert"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="🍂 专家 8×8"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:cornerRadius="28dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/difficulty_expert"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_master"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="🌳 大师 9×9"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:cornerRadius="28dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/difficulty_master"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_rules"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="📖 游戏规则"
+            android:textColor="@color/text_normal"
+            android:textSize="16sp"
+            app:cornerRadius="24dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/white"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 罗小黑治愈卡通风格配色 -->
+    <color name="background">#FAF9F6</color>
+    <color name="card_bg">#FFFFFF</color>
+    <color name="primary">#8ECAE6</color>
+    <color name="primary_dark">#219EBC</color>
+    <color name="primary_light">#FBFBFF</color>
+    <color name="accent">#FFB703</color>
+    <color name="text_normal">#333333</color>
+    <color name="text_light">#666666</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#333333</color>
+    <color name="border">#E5E5E5</color>
+    <color name="pencil_highlight">#FFB703</color>
+    
+    <!-- 平滑渐变的难度按钮颜色 -->
+    <color name="difficulty_easy">#A8DADC</color>
+    <color name="difficulty_medium">#95C5D1</color>
+    <color name="difficulty_hard">#81B4C7</color>
+    <color name="difficulty_very_hard">#6EA3BD</color>
+    <color name="difficulty_expert">#5B92B3</color>
+    <color name="difficulty_master">#4881A9</color>
+</resources>

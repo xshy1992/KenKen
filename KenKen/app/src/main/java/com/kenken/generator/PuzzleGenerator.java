@@ -245,9 +245,16 @@ public class PuzzleGenerator {
             }
         }
         
-        // 对于小尺寸（<7），继续添加提示直到唯一解
-        // 这样可以保证小尺寸谜题有唯一解
+        // 对于小尺寸（<7），检查单格cage是否足够保证唯一解
+        // 如果还不够，才逐步添加提示
         if (size < 7) {
+            // 先检查单格cage是否已经足够
+            if (hasUniqueSolution(puzzle)) {
+                // 单格cage已经足够，不需要额外提示
+                return;
+            }
+            
+            // 单格cage不够，需要添加额外提示
             List<int[]> emptyCells = new ArrayList<>();
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {

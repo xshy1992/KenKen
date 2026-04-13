@@ -5,7 +5,7 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- 圆形背景 - 治愈粉色渐变 -->
+    <!-- 圆形背景 - 治愈粉色 -->
     <path
         android:fillColor="#FFB7C5"
         android:pathData="M54,0C24.2,0,0,24.2,0,54s24.2,54,54,54,54-24.2,54-54S83.8,0,54,0z"/>
@@ -21,62 +21,44 @@
         android:pathData="M84,28c-6,0-10,6-10,14s4,10,10,10,10-4,10-10S90,28,84,28z"/>
 
     <!-- 小熊脸 -->
-    <ellipse
+    <path
         android:fillColor="#A8DADC"
-        android:cx="54"
-        android:cy="60"
-        android:rx="26"
-        android:ry="22"/>
+        android:pathData="M28,60c0,12.2,11.6,22,26,22s26-9.8,26-22S70.4,38,54,38S28,47.8,28,60z"/>
 
     <!-- 眼睛左 -->
-    <circle
+    <path
         android:fillColor="#333333"
-        android:cx="44"
-        android:cy="56"
-        android:radius="3.5"/>
+        android:pathData="M44,56m-3.5,0a3.5,3.5,0,1,1,7,0a3.5,3.5,0,1,1,-7,0"/>
     
     <!-- 眼睛右 -->
-    <circle
+    <path
         android:fillColor="#333333"
-        android:cx="64"
-        android:cy="56"
-        android:radius="3.5"/>
+        android:pathData="M64,56m-3.5,0a3.5,3.5,0,1,1,7,0a3.5,3.5,0,1,1,-7,0"/>
 
     <!-- 眼睛高光左 -->
-    <circle
+    <path
         android:fillColor="#FFFFFF"
-        android:cx="45"
-        android:cy="54.5"
-        android:radius="1.2"/>
+        android:pathData="M45,54.5m-1.2,0a1.2,1.2,0,1,1,2.4,0a1.2,1.2,0,1,1,-2.4,0"/>
     
     <!-- 眼睛高光右 -->
-    <circle
+    <path
         android:fillColor="#FFFFFF"
-        android:cx="65"
-        android:cy="54.5"
-        android:radius="1.2"/>
+        android:pathData="M65,54.5m-1.2,0a1.2,1.2,0,1,1,2.4,0a1.2,1.2,0,1,1,-2.4,0"/>
 
     <!-- 腮红 -->
-    <ellipse
+    <path
         android:fillColor="#FFB7C5"
-        android:cx="54"
-        android:cy="66"
-        android:rx="5"
-        android:ry="2.5"/>
+        android:pathData="M48,66c0,1.4,2.2,2.5,5,2.5s5-1.1,5-2.5s-2.2-2.5-5-2.5S48,64.6,48,66z"/>
 
     <!-- 嘴巴 - 微笑 -->
     <path
         android:fillColor="#333333"
         android:pathData="M48,72 Q54,78 60,72"/>
 
-    <!-- 思考的数字符号 -->
-    <text
+    <!-- 思考符号 -->
+    <path
         android:fillColor="#FFB703"
-        android:textSize="14"
-        android:text="✦"
-        android:fontFamily="sans-serif"
-        android:x="46"
-        android:y="38"/>
+        android:pathData="M46,38h3v3h-3z"/>
 
     <!-- 小星星装饰 -->
     <path

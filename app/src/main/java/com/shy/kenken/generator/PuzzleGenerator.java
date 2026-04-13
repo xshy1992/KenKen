@@ -1,8 +1,8 @@
-package com.kenken.generator;
+package com.shy.kenken.generator;
 
-import com.kenken.model.Cage;
-import com.kenken.model.Cell;
-import com.kenken.model.Puzzle;
+import com.shy.kenken.model.Cage;
+import com.shy.kenken.model.Cell;
+import com.shy.kenken.model.Puzzle;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,16 +19,25 @@ public class PuzzleGenerator {
     }
     
     public Puzzle generate() {
-        // First generate a valid solved grid
+        // 1. 生成一个完整的有效解
         int[][] solution = generateValidSolution();
-        // Then split into cages and compute operations
-        return createPuzzleFromSolution(solution);
+        
+        // 2. 创建cages并计算操作符
+        Puzzle puzzle = createPuzzleFromSolution(solution);
+        
+        // 3. 清空所有数字
+        clearAllCells(puzzle);
+        
+        // 4. 逐步添加提示数字，直到有唯一解
+        addCluesUntilUniqueSolution(puzzle, solution);
+        
+        return puzzle;
     }
     
     private int[][] generateValidSolution() {
         int[][] grid = new int[size][size];
         fillGrid(grid, 0, 0);
-        // shuffle a bit to randomize
+        // 随机化网格
         randomizeGrid(grid);
         return grid;
     }
@@ -54,11 +63,11 @@ public class PuzzleGenerator {
     }
     
     private boolean isValid(int[][] grid, int row, int col, int num) {
-        // check row
+        // 检查行
         for (int c = 0; c < col; c++) {
             if (grid[row][c] == num) return false;
         }
-        // check col
+        // 检查列
         for (int r = 0; r < row; r++) {
             if (grid[r][col] == num) return false;
         }
@@ -66,7 +75,7 @@ public class PuzzleGenerator {
     }
     
     private void randomizeGrid(int[][] grid) {
-        // swap rows occasionally to increase randomness
+        // 随机交换行以增加随机性
         for (int i = 0; i < size; i++) {
             if (random.nextBoolean()) {
                 int r1 = random.nextInt(size);
@@ -81,11 +90,10 @@ public class PuzzleGenerator {
     private Puzzle createPuzzleFromSolution(int[][] solution) {
         Puzzle puzzle = new Puzzle(size);
         
-        // Build connectivity map for region growing
         boolean[][] used = new boolean[size][size];
         List<int[]> available = new ArrayList<>();
         
-        // Initialize available cells
+        // 初始化可用单元格
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 available.add(new int[]{i, j});
@@ -95,26 +103,21 @@ public class PuzzleGenerator {
         Collections.shuffle(available, random);
         
         while (!available.isEmpty()) {
-            // Start a new cage from a random available cell
+            // 从随机可用单元格开始一个新的cage
             int[] start = available.remove(available.size() - 1);
             int r = start[0];
             int c = start[1];
             
             if (used[r][c]) continue;
             
-            // Decide cage size: 1-4 cells
+            // 决定cage大小：1-4
             int maxSize = Math.min(4, available.size() + 1);
-            int cageSize;
-            if (size <= 4) {
-                cageSize = random.nextInt(maxSize) + 1;
-            } else {
-                cageSize = random.nextInt(maxSize) + 1;
-            }
+            int cageSize = random.nextInt(maxSize) + 1;
             
             Cage cage = new Cage(0, '#');
             addCellToCage(cage, puzzle, solution, r, c, used);
             
-            // Region growing - add adjacent cells
+            // 区域增长 - 添加相邻单元格
             for (int s = 1; s < cageSize && !available.isEmpty(); s++) {
                 List<int[]> neighbors = getAdjacentUnused(cage, used);
                 if (neighbors.isEmpty()) break;
@@ -123,7 +126,7 @@ public class PuzzleGenerator {
                 addCellToCage(cage, puzzle, solution, neighbor[0], neighbor[1], used);
             }
             
-            // compute target and operation
+            // 计算目标和操作符
             computeOperationAndTarget(cage, solution);
             
             puzzle.addCage(cage);
@@ -134,7 +137,7 @@ public class PuzzleGenerator {
     
     private void addCellToCage(Cage cage, Puzzle puzzle, int[][] solution, int r, int c, boolean[][] used) {
         used[r][c] = true;
-        puzzle.cells[r][c].value = 0;  // start empty
+        puzzle.cells[r][c].value = 0;  // 初始为空
         cage.addCell(puzzle.cells[r][c]);
     }
     
@@ -161,29 +164,28 @@ public class PuzzleGenerator {
     
     private void computeOperationAndTarget(Cage cage, int[][] solution) {
         if (cage.size() == 1) {
-            // single cell - just the value
+            // 单个单元格 - 直接是值
             int val = solution[cage.cells.get(0).row][cage.cells.get(0).col];
             cage.target = val;
             cage.operation = '#';
             return;
         }
         
-        // Get all values
+        // 获取所有值
         List<Integer> values = new ArrayList<>();
         for (Cell cell : cage.cells) {
             values.add(solution[cell.row][cell.col]);
         }
         
-        // Choose operation based on size and values
-        // For 2 cells, any operation possible; for more, + or ×
+        // 根据大小和值选择操作符
         char[] possibleOps;
         if (cage.size() == 2) {
-            possibleOps = new char[]{'+', '-', '×', '÷'};
+            possibleOps = new char[]{'+', '-', '*', '/'};
         } else {
-            possibleOps = new char[]{'+', '×'};  // - and ÷ only for 2 cells
+            possibleOps = new char[]{'+', '*'};  // - 和 / 只适用于2个单元格
         }
         
-        // pick a random operation
+        // 随机选择操作符
         char op = possibleOps[random.nextInt(possibleOps.length)];
         cage.operation = op;
         
@@ -200,18 +202,18 @@ public class PuzzleGenerator {
                 cage.target = Math.abs(a - b);
                 break;
             }
-            case '×': {
+            case '*': {
                 int product = 1;
                 for (int v : values) product *= v;
                 cage.target = product;
                 break;
             }
-            case '÷': {
+            case '/': {
                 int a = Math.max(values.get(0), values.get(1));
                 int b = Math.min(values.get(0), values.get(1));
-                // ensure divisible
+                // 确保可整除
                 if (a % b != 0) {
-                    // fall back to subtraction
+                    // 回退到减法
                     cage.operation = '-';
                     cage.target = Math.abs(a - b);
                 } else {
@@ -222,7 +224,82 @@ public class PuzzleGenerator {
         }
     }
     
-    private boolean canDivide(int a, int b) {
-        return b != 0 && a % b == 0;
+    private void clearAllCells(Puzzle puzzle) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                puzzle.cells[i][j].value = 0;
+            }
+        }
+    }
+    
+    private void addCluesUntilUniqueSolution(Puzzle puzzle, int[][] solution) {
+        // 只填充单格cage（操作符为'#'），多格cage永远不填充
+        // 符合要求：默认只填充单格，多格不参与默认填充
+        for (Cage cage : puzzle.cages) {
+            if (cage.size() == 1) {
+                // 单格cage，填充其目标值
+                Cell cell = cage.cells.get(0);
+                cell.value = solution[cell.row][cell.col];
+            }
+        }
+    }
+    
+    private boolean hasUniqueSolution(Puzzle puzzle) {
+        // 使用回溯算法计算解的数量
+        // 如果超过1个解，返回false
+        SolutionCounter counter = new SolutionCounter();
+        countSolutions(puzzle, counter, 0, 0);
+        return counter.count == 1;
+    }
+    
+    private static class SolutionCounter {
+        int count = 0;
+        static final int MAX_SOLUTIONS = 2;  // 只需要知道是否超过1个
+    }
+    
+    private void countSolutions(Puzzle puzzle, SolutionCounter counter, int row, int col) {
+        if (counter.count >= SolutionCounter.MAX_SOLUTIONS) return;
+        
+        if (row == size) {
+            counter.count++;
+            return;
+        }
+        
+        if (col == size) {
+            countSolutions(puzzle, counter, row + 1, 0);
+            return;
+        }
+        
+        // 如果这个单元格已经有值（提示），跳过
+        if (puzzle.cells[row][col].value != 0) {
+            countSolutions(puzzle, counter, row, col + 1);
+            return;
+        }
+        
+        // 尝试所有可能的值
+        for (int num = 1; num <= size; num++) {
+            if (isValidPlacement(puzzle, row, col, num)) {
+                puzzle.cells[row][col].value = num;
+                countSolutions(puzzle, counter, row, col + 1);
+                puzzle.cells[row][col].value = 0;
+            }
+        }
+    }
+    
+    private boolean isValidPlacement(Puzzle puzzle, int row, int col, int num) {
+        // 检查行
+        for (int c = 0; c < size; c++) {
+            if (c != col && puzzle.cells[row][c].value == num) return false;
+        }
+        // 检查列
+        for (int r = 0; r < size; r++) {
+            if (r != row && puzzle.cells[r][col].value == num) return false;
+        }
+        // 检查cage约束
+        Cage cage = puzzle.getCage(row, col);
+        if (cage != null && !cage.checkPartialConstraint(row, col, num, size)) {
+            return false;
+        }
+        return true;
     }
 }

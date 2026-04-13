@@ -1,4 +1,4 @@
-package com.kenken.view;
+package com.shy.kenken.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,9 +11,9 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.kenken.model.Cage;
-import com.kenken.model.Cell;
-import com.kenken.model.Puzzle;
+import com.shy.kenken.model.Cage;
+import com.shy.kenken.model.Cell;
+import com.shy.kenken.model.Puzzle;
 
 public class KenKenView extends View {
     private Puzzle puzzle;
@@ -208,10 +208,17 @@ public class KenKenView extends View {
                 float top = padding + first.row * cellSize;
                 String label = String.valueOf(cage.target);
                 if (cage.operation != '#') {
-                    label = label + cage.operation;
+                    char op = cage.operation;
+                    if (op == '*') {
+                        op = '×';
+                    } else if (op == '/') {
+                        op = '÷';
+                    }
+                    label = label + op;
                 }
                 cageLabelPaint.setTextSize(cellSize * 0.22f);
-                canvas.drawText(label, left + 4, top + cageLabelPaint.getTextSize() + 2, cageLabelPaint);
+                // 标签严格放在方格左上角，距离边界2dp
+                canvas.drawText(label, left + 2, top + cageLabelPaint.getTextSize() + 2, cageLabelPaint);
             }
         }
         

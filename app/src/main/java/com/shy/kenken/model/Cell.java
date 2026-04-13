@@ -1,4 +1,4 @@
-package com.kenken.model;
+package com.shy.kenken.model;
 
 public class Cell {
     public int row;

@@ -1,4 +1,4 @@
-package com.kenken.model;
+package com.shy.kenken.model;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,21 +3,32 @@ plugins {
 }
 
 android {
-    namespace "com.kenken"
+    namespace "com.shy.kenken"
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.kenken"
+        applicationId "com.shy.kenken"
         minSdk 21
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('/home/service/workspace/kenken-release-key.jks')
+            storePassword 'kenken123456'
+            keyAlias 'kenken'
+            keyPassword 'kenken123456'
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

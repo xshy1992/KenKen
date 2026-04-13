@@ -17,7 +17,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"/>
 
-    <com.kenken.view.KenKenView
+    <com.shy.kenken.view.KenKenView
         android:id="@+id/kenken_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -33,7 +33,7 @@
         android:gravity="center"
         android:layout_marginBottom="12dp">
 
-        <!-- 草稿按钮 -->
+        <!--        草稿按钮 -->
         <LinearLayout
             android:id="@+id/container_pencil"
             android:layout_width="0dp"
@@ -42,7 +42,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/btn_bg_selector"
+            android:background="@drawable/btn_bg_white"
             android:padding="6dp"
             android:layout_marginEnd="6dp"
             android:clickable="true"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="草稿"
                 android:textSize="12sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/text_normal"/>
         </LinearLayout>
 
         <!-- 撤销按钮 -->
@@ -69,7 +69,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/btn_bg_selector"
+            android:background="@drawable/btn_bg_white"
             android:padding="6dp"
             android:layout_marginEnd="6dp"
             android:clickable="true"
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:text="撤销"
                 android:textSize="12sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/text_normal"/>
         </LinearLayout>
 
         <!-- 清除按钮 -->
@@ -96,7 +96,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/btn_bg_selector"
+            android:background="@drawable/btn_bg_white"
             android:padding="6dp"
             android:layout_marginEnd="6dp"
             android:clickable="true"
@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:text="清除"
                 android:textSize="12sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/text_normal"/>
         </LinearLayout>
 
         <!-- 重置按钮（清空所有方格，重置计时） -->
@@ -123,7 +123,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/btn_bg_selector"
+            android:background="@drawable/btn_bg_white"
             android:padding="6dp"
             android:clickable="true"
             android:focusable="true">
@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:text="重置"
                 android:textSize="12sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/text_normal"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -234,7 +234,7 @@
             android:backgroundTint="@color/primary"/>
     </LinearLayout>
 
-    <!-- 第二行：7-9（为了对齐，加3个空占位） -->
+    <!-- 第二行：7-9（6列布局） -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -284,25 +284,44 @@
             android:background="@drawable/btn_bg_selector"
             android:backgroundTint="@color/primary"/>
 
-        <!-- 3个空占位，保持6列对齐 -->
-        <View
+        <!-- 占位按钮1，默认透明 -->
+        <Button
+            android:id="@+id/placeholder_1"
             android:layout_width="0dp"
             android:layout_height="56dp"
+            android:minHeight="56dp"
             android:layout_weight="1"
+            android:text=""
+            android:textSize="24sp"
+            android:textColor="@android:color/transparent"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:background="@color/background"/>
-        <View
+        
+        <!-- 占位按钮2，默认透明 -->
+        <Button
+            android:id="@+id/placeholder_2"
             android:layout_width="0dp"
             android:layout_height="56dp"
+            android:minHeight="56dp"
             android:layout_weight="1"
+            android:text=""
+            android:textSize="24sp"
+            android:textColor="@android:color/transparent"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:background="@color/background"/>
-        <View
+        
+        <!-- 占位按钮3，默认透明 -->
+        <Button
+            android:id="@+id/placeholder_3"
             android:layout_width="0dp"
             android:layout_height="56dp"
+            android:minHeight="56dp"
             android:layout_weight="1"
+            android:text=""
+            android:textSize="24sp"
+            android:textColor="@android:color/transparent"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:background="@color/background"/>

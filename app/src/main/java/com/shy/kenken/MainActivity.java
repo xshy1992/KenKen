@@ -1,4 +1,4 @@
-package com.kenken;
+package com.shy.kenken;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

@@ -26,7 +26,13 @@ public class GameActivity extends AppCompatActivity {
     private TextView timerText;
     private Handler timerHandler = new Handler();
     private long startTime = 0;
+    private long pausedElapsedTime = 0;
     private boolean isTimerRunning = false;
+    
+    // 预生成缓存：提前生成好的下一题Puzzle，按size缓存
+    private static Puzzle cachedPuzzle = null;
+    private static int cachedSize = -1;
+    private static boolean isPreGenerating = false;
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
@@ -334,18 +340,49 @@ public class GameActivity extends AppCompatActivity {
     }
     
     private void generateNewPuzzle() {
-        // 使用新模式：只保留单格cage提示，不添加额外填充，完全依赖cage约束保证唯一解
-        // 如果找不到纯cage唯一解，最多只添加极少提示
-        PuzzleGenerator generator = new PuzzleGenerator(size, true);
-        puzzle = generator.generate();
         selectedRow = -1;
         selectedCol = -1;
         undoStack.clear();
+        
+        // 优先使用预生成的缓存（如果size匹配）
+        if (cachedPuzzle != null && cachedSize == size && !isPreGenerating) {
+            // 直接用缓存好的
+            puzzle = cachedPuzzle;
+            cachedPuzzle = null;
+            cachedSize = -1;
+        } else {
+            // 没有缓存，当前线程生成
+            PuzzleGenerator generator = new PuzzleGenerator(size, true);
+            puzzle = generator.generate();
+        }
+        
         updateUndoButtonEnabled();
         kenKenView.setPuzzle(puzzle);
         // 重启计时
         stopTimer();
         startTimer();
+        
+        // 异步预生成下一题
+        preGenerateNextPuzzle();
+    }
+    
+    // 异步预生成下一题
+    private void preGenerateNextPuzzle() {
+        if (isPreGenerating) return;  // 已经在生成了
+        if (cachedPuzzle != null && cachedSize == size) return;  // 已经有缓存了
+        
+        isPreGenerating = true;
+        new Thread(() -> {
+            // 在后台生成下一题
+            PuzzleGenerator generator = new PuzzleGenerator(size, true);
+            Puzzle newPuzzle = generator.generate();
+            // 更新缓存，切回主线程
+            runOnUiThread(() -> {
+                cachedPuzzle = newPuzzle;
+                cachedSize = size;
+                isPreGenerating = false;
+            });
+        }).start();
     }
     
     private void checkErrors() {
@@ -366,9 +403,12 @@ public class GameActivity extends AppCompatActivity {
     private void checkComplete() {
         if (puzzle.isComplete()) {
             stopTimer();
+            long elapsedTotalMs = System.currentTimeMillis() - startTime;
+            long elapsedSeconds = elapsedTotalMs / 1000;
+            String message = getCompletionMessage(size, elapsedSeconds);
             new AlertDialog.Builder(this)
                 .setTitle("恭喜！")
-                .setMessage("你成功完成了" + size + "x" + size + "的聪明格！")
+                .setMessage(message)
                 .setPositiveButton("完成", (dialog, which) -> finish())
                 .setNegativeButton("新游戏", (dialog, which) -> {
                     // 重新生成新游戏
@@ -381,8 +421,59 @@ public class GameActivity extends AppCompatActivity {
     }
     
     @Override
+    protected void onPause() {
+        super.onPause();
+        // 离开页面时暂停计时
+        if (isTimerRunning && !puzzle.isComplete()) {
+            stopTimer();
+            // 保存暂停时已经过去的时间
+            pausedElapsedTime = System.currentTimeMillis() - startTime;
+        }
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 返回页面时继续计时（如果游戏没完成）
+        if (!isTimerRunning && !puzzle.isComplete()) {
+            // 从暂停时间继续
+            startTime = System.currentTimeMillis() - pausedElapsedTime;
+            startTimer();
+        }
+    }
+    
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         stopTimer();
+    }
+    
+    // 根据难度和时间生成不同完成文案
+    private String getCompletionMessage(int size, long seconds) {
+        if (size <= 4) {
+            if (seconds < 60) {
+                return String.format("太棒了！你只用了%d秒就完成了%d×%d的聪明格，反应很快！", seconds, size, size);
+            } else if (seconds < 180) {
+                return String.format("恭喜！你用了%d分%d秒完成了%d×%d的聪明格，很棒！", seconds / 60, seconds % 60, size, size);
+            } else {
+                return String.format("恭喜完成！你用了%d分%d秒完成了%d×%d的聪明格，继续加油！", seconds / 60, seconds % 60, size, size);
+            }
+        } else if (size <= 6) {
+            if (seconds < 180) {
+                return String.format("太厉害了！你只用了%d分%d秒完成了%d×%d的聪明格，逻辑思维超强！", seconds / 60, seconds % 60, size, size);
+            } else if (seconds < 480) {
+                return String.format("恭喜！你用了%d分%d秒完成了%d×%d的聪明格，非常不错！", seconds / 60, seconds % 60, size, size);
+            } else {
+                return String.format("恭喜完成！你用了%d分%d秒完成了%d×%d的聪明格，坚持就是胜利！", seconds / 60, seconds % 60, size, size);
+            }
+        } else {
+            if (seconds < 480) {
+                return String.format("大神！你只用了%d分%d秒就完成了%d×%d的聪明格，这水平可以去比赛了！", seconds / 60, seconds % 60, size, size);
+            } else if (seconds < 900) {
+                return String.format("太强了！你用了%d分%d秒完成了%d×%d的聪明格，相当出色！", seconds / 60, seconds % 60, size, size);
+            } else {
+                return String.format("恭喜毅力王者！你用了%d分%d秒完成了%d×%d的大尺寸聪明格，太不容易了！", seconds / 60, seconds % 60, size, size);
+            }
+        }
     }
 }

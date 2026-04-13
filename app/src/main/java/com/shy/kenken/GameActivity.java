@@ -33,8 +33,14 @@ public class GameActivity extends AppCompatActivity {
             long elapsedTime = System.currentTimeMillis() - startTime;
             int seconds = (int) (elapsedTime / 1000);
             int minutes = seconds / 60;
+            int hours = minutes / 60;
+            minutes = minutes % 60;
             seconds = seconds % 60;
-            timerText.setText(String.format("%d:%02d", minutes, seconds));
+            if (hours > 0) {
+                timerText.setText(String.format("%d:%02d:%02d", hours, minutes, seconds));
+            } else {
+                timerText.setText(String.format("%d:%02d", minutes, seconds));
+            }
             if (isTimerRunning) {
                 timerHandler.postDelayed(this, 1000);
             }

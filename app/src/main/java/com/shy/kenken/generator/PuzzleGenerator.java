@@ -12,17 +12,69 @@ import java.util.Random;
 public class PuzzleGenerator {
     private int size;
     private Random random;
-    private static final int MAX_GENERATION_ATTEMPTS = 10;  // 最大生成尝试次数
+    private static final int MAX_GENERATION_ATTEMPTS = 50;  // 最大生成尝试次数（增大以便找到纯cage唯一解）
     private static final int MIN_CLUES_TO_KEEP = 4;  // 最少保留的提示数
+    
+    // 是否只依赖cage约束保证唯一解，不添加额外提示
+    // true: 只保留单格cage提示，不添加任何额外提示，要求纯cage唯一解
+    // false: 如果需要，逐步添加额外提示保证唯一解
+    private boolean requireUniqueWithoutExtraClues = true;  // 默认不添加额外提示，纯靠cage保证唯一
     
     public PuzzleGenerator(int size) {
         this.size = size;
         this.random = new Random();
     }
     
+    public PuzzleGenerator(int size, boolean requireUniqueWithoutExtraClues) {
+        this.size = size;
+        this.random = new Random();
+        this.requireUniqueWithoutExtraClues = requireUniqueWithoutExtraClues;
+    }
+    
     public Puzzle generate() {
+        if (requireUniqueWithoutExtraClues) {
+            // 方案：完全不添加额外提示，只保留单格cage提示，重新生成整个puzzle直到唯一解
+            for (int attempt = 0; attempt < MAX_GENERATION_ATTEMPTS; attempt++) {
+                // 1. 生成一个完整的有效解
+                int[][] solution = generateValidSolution();
+                
+                // 2. 创建cages并计算操作符
+                Puzzle puzzle = createPuzzleFromSolution(solution);
+                
+                // 3. 只保留单格cage提示，其他清空
+                clearAllCells(puzzle);
+                fillSingleCellCages(puzzle, solution);
+                
+                // 4. 检查此时是否唯一解
+                if (hasUniqueSolution(puzzle)) {
+                    return puzzle;  // 找到纯cage唯一解，成功返回
+                }
+                // 不唯一，继续重试，重新生成整个puzzle
+            }
+            
+            // 如果多次尝试都找不到纯cage唯一解（对于大尺寸有可能），回退到添加少量提示
+            for (int attempt = 0; attempt < MAX_GENERATION_ATTEMPTS / 2; attempt++) {
+                int[][] solution = generateValidSolution();
+                Puzzle puzzle = createPuzzleFromSolution(solution);
+                clearAllCells(puzzle);
+                fillSingleCellCages(puzzle, solution);
+                if (addFewCluesUntilUnique(puzzle, solution)) {
+                    return puzzle;
+                }
+            }
+            
+            // 最坏情况，回退到原来的方法
+            return generateWithClues();
+        } else {
+            // 原来的方案：允许添加额外提示
+            return generateWithClues();
+        }
+    }
+    
+    // 原来的带提示生成方法
+    private Puzzle generateWithClues() {
         // 多次尝试，直到生成一个有唯一解的puzzle
-        for (int attempt = 0; attempt < MAX_GENERATION_ATTEMPTS; attempt++) {
+        for (int attempt = 0; attempt < 10; attempt++) {
             // 1. 生成一个完整的有效解
             int[][] solution = generateValidSolution();
             
@@ -242,6 +294,42 @@ public class PuzzleGenerator {
                 puzzle.cells[i][j].value = 0;
             }
         }
+    }
+    
+    private void fillSingleCellCages(Puzzle puzzle, int[][] solution) {
+        // 只填充单格cage，多格都不填充
+        for (Cage cage : puzzle.cages) {
+            if (cage.size() == 1) {
+                Cell cell = cage.cells.get(0);
+                cell.value = solution[cell.row][cell.col];
+            }
+        }
+    }
+    
+    private boolean addFewCluesUntilUnique(Puzzle puzzle, int[][] solution) {
+        // 如果纯cage不行，只添加很少量提示
+        List<int[]> emptyCells = new ArrayList<>();
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                if (puzzle.cells[r][c].value == 0) {
+                    emptyCells.add(new int[]{r, c});
+                }
+            }
+        }
+        
+        Collections.shuffle(emptyCells, random);
+        
+        // 最多添加 20% 的提示
+        int maxAdd = Math.max(1, size * size / 5);
+        for (int i = 0; i < maxAdd && !emptyCells.isEmpty(); i++) {
+            int[] cell = emptyCells.remove(emptyCells.size() - 1);
+            puzzle.cells[cell[0]][cell[1]].value = solution[cell[0]][cell[1]];
+            if (hasUniqueSolution(puzzle)) {
+                return true;
+            }
+        }
+        
+        return hasUniqueSolution(puzzle);
     }
     
     private boolean addCluesUntilUniqueSolution(Puzzle puzzle, int[][] solution) {

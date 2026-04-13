@@ -334,7 +334,9 @@ public class GameActivity extends AppCompatActivity {
     }
     
     private void generateNewPuzzle() {
-        PuzzleGenerator generator = new PuzzleGenerator(size);
+        // 使用新模式：只保留单格cage提示，不添加额外填充，完全依赖cage约束保证唯一解
+        // 如果找不到纯cage唯一解，最多只添加极少提示
+        PuzzleGenerator generator = new PuzzleGenerator(size, true);
         puzzle = generator.generate();
         selectedRow = -1;
         selectedCol = -1;

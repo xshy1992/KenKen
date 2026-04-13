@@ -12,6 +12,8 @@ import java.util.Random;
 public class PuzzleGenerator {
     private int size;
     private Random random;
+    private static final int MAX_GENERATION_ATTEMPTS = 10;  // 最大生成尝试次数
+    private static final int MIN_CLUES_TO_KEEP = 4;  // 最少保留的提示数
     
     public PuzzleGenerator(int size) {
         this.size = size;
@@ -19,18 +21,28 @@ public class PuzzleGenerator {
     }
     
     public Puzzle generate() {
-        // 1. 生成一个完整的有效解
+        // 多次尝试，直到生成一个有唯一解的puzzle
+        for (int attempt = 0; attempt < MAX_GENERATION_ATTEMPTS; attempt++) {
+            // 1. 生成一个完整的有效解
+            int[][] solution = generateValidSolution();
+            
+            // 2. 创建cages并计算操作符
+            Puzzle puzzle = createPuzzleFromSolution(solution);
+            
+            // 3. 清空所有数字
+            clearAllCells(puzzle);
+            
+            // 4. 逐步添加提示数字，直到有唯一解
+            if (addCluesUntilUniqueSolution(puzzle, solution)) {
+                return puzzle;  // 找到唯一解，成功返回
+            }
+        }
+        
+        // 如果多次尝试都失败，退化为使用所有单格提示+额外随机提示保证唯一
         int[][] solution = generateValidSolution();
-        
-        // 2. 创建cages并计算操作符
         Puzzle puzzle = createPuzzleFromSolution(solution);
-        
-        // 3. 清空所有数字
         clearAllCells(puzzle);
-        
-        // 4. 逐步添加提示数字，直到有唯一解
-        addCluesUntilUniqueSolution(puzzle, solution);
-        
+        forceUniqueSolutionByAddingClues(puzzle, solution);
         return puzzle;
     }
     
@@ -232,58 +244,186 @@ public class PuzzleGenerator {
         }
     }
     
-    private void addCluesUntilUniqueSolution(Puzzle puzzle, int[][] solution) {
-        // 只填充单格cage（操作符为'#'），多格cage永远不填充
-        // 符合要求：默认只填充单格，多格不参与默认填充
+    private boolean addCluesUntilUniqueSolution(Puzzle puzzle, int[][] solution) {
+        // 第一步：只填充单格cage（操作符为'#'），这是默认要求
+        int filledCount = 0;
+        List<int[]> emptyCells = new ArrayList<>();
+        
         for (Cage cage : puzzle.cages) {
             if (cage.size() == 1) {
-                // 单格cage，填充其目标值
+                Cell cell = cage.cells.get(0);
+                cell.value = solution[cell.row][cell.col];
+                filledCount++;
+            }
+        }
+        
+        // 收集所有空单元格
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                if (puzzle.cells[r][c].value == 0) {
+                    emptyCells.add(new int[]{r, c});
+                }
+            }
+        }
+        
+        // 检查现在是否已经有唯一解
+        if (hasUniqueSolution(puzzle)) {
+            return true;
+        }
+        
+        // 如果不唯一，逐步随机添加提示直到唯一解
+        Collections.shuffle(emptyCells, random);
+        
+        while (!emptyCells.isEmpty() && filledCount < size * size - 1) {
+            // 添加一个提示
+            int[] cell = emptyCells.remove(emptyCells.size() - 1);
+            int r = cell[0];
+            int c = cell[1];
+            puzzle.cells[r][c].value = solution[r][c];
+            filledCount++;
+            
+            // 检查现在是否唯一
+            if (hasUniqueSolution(puzzle)) {
+                return true;
+            }
+        }
+        
+        // 即使填满了也不唯一？这很不可能
+        return hasUniqueSolution(puzzle);
+    }
+    
+    private void forceUniqueSolutionByAddingClues(Puzzle puzzle, int[][] solution) {
+        // 后备方法：保证唯一解，强制添加足够多的提示
+        // 先填充所有单格cage
+        for (Cage cage : puzzle.cages) {
+            if (cage.size() == 1) {
                 Cell cell = cage.cells.get(0);
                 cell.value = solution[cell.row][cell.col];
             }
+        }
+        
+        // 如果还不唯一，继续添加直到唯一
+        while (!hasUniqueSolution(puzzle)) {
+            // 随机找一个空单元格填充
+            List<int[]> emptyCells = new ArrayList<>();
+            for (int r = 0; r < size; r++) {
+                for (int c = 0; c < size; c++) {
+                    if (puzzle.cells[r][c].value == 0) {
+                        emptyCells.add(new int[]{r, c});
+                    }
+                }
+            }
+            
+            if (emptyCells.isEmpty()) break;
+            
+            int[] cell = emptyCells.get(random.nextInt(emptyCells.size()));
+            puzzle.cells[cell[0]][cell[1]].value = solution[cell[0]][cell[1]];
         }
     }
     
     private boolean hasUniqueSolution(Puzzle puzzle) {
         // 使用回溯算法计算解的数量
         // 如果超过1个解，返回false
+        // 使用启发式搜索：优先搜索可能性最少的单元格，提高剪枝效率
         SolutionCounter counter = new SolutionCounter();
-        countSolutions(puzzle, counter, 0, 0);
+        backtrackCountSolutions(puzzle, counter);
+        restorePuzzle(puzzle);  // 恢复原始状态
         return counter.count == 1;
     }
     
     private static class SolutionCounter {
         int count = 0;
         static final int MAX_SOLUTIONS = 2;  // 只需要知道是否超过1个
+        long startTime;
+        static final long MAX_DURATION_MS = 2000;  // 最多搜索2秒，防止卡住
+        
+        public SolutionCounter() {
+            this.startTime = System.currentTimeMillis();
+        }
+        
+        public boolean shouldStop() {
+            return count >= MAX_SOLUTIONS || 
+                   (System.currentTimeMillis() - startTime) > MAX_DURATION_MS;
+        }
     }
     
-    private void countSolutions(Puzzle puzzle, SolutionCounter counter, int row, int col) {
-        if (counter.count >= SolutionCounter.MAX_SOLUTIONS) return;
+    private void backtrackCountSolutions(Puzzle puzzle, SolutionCounter counter) {
+        if (counter.shouldStop()) return;
         
-        if (row == size) {
+        // 找到下一个空单元格（选择约束最多的，启发式加快搜索）
+        Cell next = findBestEmptyCell(puzzle);
+        if (next == null) {
+            // 所有单元格都填满了，找到一个解
             counter.count++;
             return;
         }
         
-        if (col == size) {
-            countSolutions(puzzle, counter, row + 1, 0);
-            return;
+        // 获取所有可能的有效值
+        List<Integer> candidates = getValidCandidates(puzzle, next.row, next.col);
+        if (candidates.isEmpty()) {
+            return;  // 剪枝
         }
         
-        // 如果这个单元格已经有值（提示），跳过
-        if (puzzle.cells[row][col].value != 0) {
-            countSolutions(puzzle, counter, row, col + 1);
-            return;
+        // 尝试每个候选值
+        for (int num : candidates) {
+            if (counter.shouldStop()) break;
+            puzzle.cells[next.row][next.col].value = num;
+            backtrackCountSolutions(puzzle, counter);
+            puzzle.cells[next.row][next.col].value = 0;
         }
+    }
+    
+    // 找到约束最多的空单元格，优先搜索它（MRV启发式）
+    private Cell findBestEmptyCell(Puzzle puzzle) {
+        Cell best = null;
+        int minCandidates = Integer.MAX_VALUE;
         
-        // 尝试所有可能的值
-        for (int num = 1; num <= size; num++) {
-            if (isValidPlacement(puzzle, row, col, num)) {
-                puzzle.cells[row][col].value = num;
-                countSolutions(puzzle, counter, row, col + 1);
-                puzzle.cells[row][col].value = 0;
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                if (puzzle.cells[r][c].value == 0) {
+                    int candidates = countValidCandidates(puzzle, r, c);
+                    if (candidates <= 1) {
+                        // 只有0或1个候选，这是最好的选择
+                        return puzzle.cells[r][c];
+                    }
+                    if (candidates < minCandidates) {
+                        minCandidates = candidates;
+                        best = puzzle.cells[r][c];
+                    }
+                }
             }
         }
+        
+        return best;
+    }
+    
+    // 计算某个单元格的有效候选数
+    private int countValidCandidates(Puzzle puzzle, int row, int col) {
+        int count = 0;
+        for (int num = 1; num <= size; num++) {
+            if (isValidPlacement(puzzle, row, col, num)) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    // 获取某个单元格的所有有效候选
+    private List<Integer> getValidCandidates(Puzzle puzzle, int row, int col) {
+        List<Integer> candidates = new ArrayList<>();
+        for (int num = 1; num <= size; num++) {
+            if (isValidPlacement(puzzle, row, col, num)) {
+                candidates.add(num);
+            }
+        }
+        return candidates;
+    }
+    
+    // 恢复puzzle到原始状态（清除回溯时填入的数字）
+    private void restorePuzzle(Puzzle puzzle) {
+        // 只保留原来就有的提示（值不为0且不是我们搜索添加的）
+        // 实际上我们在回溯时已经重置了所有添加的值，所以这里不需要做任何事情
+        // 这个方法只是为了安全，防止提前退出时留下值
     }
     
     private boolean isValidPlacement(Puzzle puzzle, int row, int col, int num) {

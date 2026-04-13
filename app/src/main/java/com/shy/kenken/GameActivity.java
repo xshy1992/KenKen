@@ -75,13 +75,6 @@ public class GameActivity extends AppCompatActivity {
         timerText = findViewById(R.id.timer_text);
         kenKenView = findViewById(R.id.kenken_view);
         
-        // 恢复已保存的计时状态（系统回收Activity后重新打开）
-        if (savedInstanceState != null) {
-            startTime = savedInstanceState.getLong("startTime", 0);
-            pausedElapsedTime = savedInstanceState.getLong("pausedElapsedTime", 0);
-            isTimerRunning = savedInstanceState.getBoolean("isTimerRunning", false);
-        }
-        
         LinearLayout containerPencil = findViewById(R.id.container_pencil);
         LinearLayout containerUndo = findViewById(R.id.container_undo);
         LinearLayout containerReset = findViewById(R.id.container_reset);
@@ -92,6 +85,17 @@ public class GameActivity extends AppCompatActivity {
         
         // Generate new puzzle
         generateNewPuzzle();
+        
+        // 恢复已保存的计时状态（系统回收Activity后重新打开）
+        if (savedInstanceState != null) {
+            startTime = savedInstanceState.getLong("startTime", 0);
+            pausedElapsedTime = savedInstanceState.getLong("pausedElapsedTime", 0);
+            isTimerRunning = savedInstanceState.getBoolean("isTimerRunning", false);
+            // 如果计时本来应该在运行，重新启动
+            if (!isTimerRunning && !puzzle.isComplete()) {
+                startTime = System.currentTimeMillis() - pausedElapsedTime;
+            }
+        }
         
         kenKenView.setOnCellClickListener((row, col) -> {
             selectedRow = row;

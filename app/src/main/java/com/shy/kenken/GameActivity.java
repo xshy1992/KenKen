@@ -75,6 +75,13 @@ public class GameActivity extends AppCompatActivity {
         timerText = findViewById(R.id.timer_text);
         kenKenView = findViewById(R.id.kenken_view);
         
+        // 恢复已保存的计时状态（系统回收Activity后重新打开）
+        if (savedInstanceState != null) {
+            startTime = savedInstanceState.getLong("startTime", 0);
+            pausedElapsedTime = savedInstanceState.getLong("pausedElapsedTime", 0);
+            isTimerRunning = savedInstanceState.getBoolean("isTimerRunning", false);
+        }
+        
         LinearLayout containerPencil = findViewById(R.id.container_pencil);
         LinearLayout containerUndo = findViewById(R.id.container_undo);
         LinearLayout containerReset = findViewById(R.id.container_reset);
@@ -440,6 +447,15 @@ public class GameActivity extends AppCompatActivity {
             startTime = System.currentTimeMillis() - pausedElapsedTime;
             startTimer();
         }
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // 保存计时状态，防止系统回收Activity后丢失已用时间
+        outState.putLong("startTime", startTime);
+        outState.putLong("pausedElapsedTime", pausedElapsedTime);
+        outState.putBoolean("isTimerRunning", isTimerRunning);
+        super.onSaveInstanceState(outState);
     }
     
     @Override

@@ -83,17 +83,41 @@ public class GameActivity extends AppCompatActivity {
         pencilMode = false;
         updatePencilButtonBackground();
         
-        // Generate new puzzle
-        generateNewPuzzle();
-        
-        // 恢复已保存的计时状态（系统回收Activity后重新打开）
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
+            // 全新打开，生成新puzzle
+            generateNewPuzzle();
+            // 全新开始计时
+            startTime = 0;
+            pausedElapsedTime = 0;
+            startTimer();
+        } else {
+            // 恢复状态：先恢复size和puzzle
+            size = savedInstanceState.getInt("size", size);
+            restorePuzzleFromBundle(savedInstanceState);
+            kenKenView.setPuzzle(puzzle);
+            // 恢复计时状态
             startTime = savedInstanceState.getLong("startTime", 0);
             pausedElapsedTime = savedInstanceState.getLong("pausedElapsedTime", 0);
             isTimerRunning = savedInstanceState.getBoolean("isTimerRunning", false);
-            // 如果计时本来应该在运行，重新启动
-            if (!isTimerRunning && !puzzle.isComplete()) {
-                startTime = System.currentTimeMillis() - pausedElapsedTime;
+            selectedRow = savedInstanceState.getInt("selectedRow", -1);
+            selectedCol = savedInstanceState.getInt("selectedCol", -1);
+            pencilMode = savedInstanceState.getBoolean("pencilMode", false);
+            updatePencilButtonBackground();
+            
+            // 如果游戏没完成，且计时应该在运行，继续计时
+            if (!puzzle.isComplete()) {
+                if (!isTimerRunning) {
+                    // 暂停状态，保持暂停，只更新显示
+                    long elapsed = pausedElapsedTime;
+                    int seconds = (int) (elapsed / 1000);
+                    int minutes = seconds / 60;
+                    seconds = seconds % 60;
+                    timerText.setText(String.format("%d:%02d", minutes, seconds));
+                } else {
+                    // 继续运行，调整startTime
+                    startTime = System.currentTimeMillis() - pausedElapsedTime;
+                    startTimer();
+                }
             }
         }
         
@@ -453,12 +477,96 @@ public class GameActivity extends AppCompatActivity {
         }
     }
     
+    // 保存整个puzzle状态到Bundle
+    private void savePuzzleToBundle(Bundle outState) {
+        // 保存每个单元格的值和pencil标记
+        int[][] values = new int[size][size];
+        boolean[][][] pencil = new boolean[size][size][10];
+        
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                Cell cell = puzzle.cells[r][c];
+                values[r][c] = cell.value;
+                System.arraycopy(cell.pencilValues, 0, pencil[r][c], 0, 10);
+            }
+        }
+        
+        outState.putInt("size", size);
+        outState.putIntArray("values", flattenIntArray(values));
+        outState.putBooleanArray("pencil", flattenBooleanArray(pencil));
+    }
+    
+    // 把二维int数组摊平成一维
+    private int[] flattenIntArray(int[][] array) {
+        int[] result = new int[size * size];
+        for (int r = 0; r < size; r++) {
+            System.arraycopy(array[r], 0, result, r * size, size);
+        }
+        return result;
+    }
+    
+    // 把三维boolean数组摊平成一维
+    private boolean[] flattenBooleanArray(boolean[][][] array) {
+        boolean[] result = new boolean[size * size * 10];
+        int index = 0;
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                System.arraycopy(array[r][c], 0, result, index, 10);
+                index += 10;
+            }
+        }
+        return result;
+    }
+    
+    // 从Bundle恢复puzzle状态
+    private void restorePuzzleFromBundle(Bundle savedInstanceState) {
+        // 重新创建puzzle结构（cages已经生成好，只恢复用户填入的值）
+        int restoredSize = savedInstanceState.getInt("size", size);
+        this.size = restoredSize;
+        // 我们需要重新生成一个同样size的puzzle结构，然后恢复值
+        // 因为cage结构和目标已经固定，只恢复用户填写
+        PuzzleGenerator generator = new PuzzleGenerator(size, true);
+        // 注意：这里我们用缓存如果有的话，否则直接生成
+        // 实际上系统回收后预生成缓存已经清了，直接生成新的结构，然后恢复值
+        if (cachedPuzzle != null && cachedSize == size) {
+            puzzle = cachedPuzzle;
+            cachedPuzzle = null;
+            cachedSize = -1;
+        } else {
+            puzzle = generator.generate();
+        }
+        
+        int[] values = savedInstanceState.getIntArray("values");
+        boolean[] pencil = savedInstanceState.getBooleanArray("pencil");
+        
+        if (values != null && pencil != null) {
+            int index = 0;
+            int pencilIndex = 0;
+            for (int r = 0; r < size; r++) {
+                for (int c = 0; c < size; c++) {
+                    Cell cell = puzzle.cells[r][c];
+                    cell.value = values[index++];
+                    System.arraycopy(pencil, pencilIndex, cell.pencilValues, 0, 10);
+                    pencilIndex += 10;
+                }
+            }
+        }
+        
+        // 预生成下一题
+        preGenerateNextPuzzle();
+    }
+    
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // 保存计时状态，防止系统回收Activity后丢失已用时间
+        // 保存所有状态：计时 + 整个puzzle进度 + UI状态
+        outState.putInt("size", size);
         outState.putLong("startTime", startTime);
         outState.putLong("pausedElapsedTime", pausedElapsedTime);
         outState.putBoolean("isTimerRunning", isTimerRunning);
+        outState.putInt("selectedRow", selectedRow);
+        outState.putInt("selectedCol", selectedCol);
+        outState.putBoolean("pencilMode", pencilMode);
+        savePuzzleToBundle(outState);
         super.onSaveInstanceState(outState);
     }
     

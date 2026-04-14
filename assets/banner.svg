@@ -1,9 +1,9 @@
 <svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
-  <!-- 柔和蓝紫渐变背景 治愈系 -->
+  <!-- 柔和粉紫渐变背景 匹配小象图标治愈系 -->
   <defs>
     <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#a8edea;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#fed6e3;stop-opacity:1" />
+      <stop offset="0%" style="stop-color:#f5edf2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e8ccd7;stop-opacity:1" />
     </linearGradient>
   </defs>
   
@@ -11,68 +11,64 @@
   <rect width="100%" height="100%" fill="url(#bgGradient)" />
   
   <!-- 装饰气泡 -->
-  <circle cx="150" cy="150" r="40" fill="white" opacity="0.4"/>
-  <circle cx="1770" cy="200" r="60" fill="white" opacity="0.4"/>
-  <circle cx="200" cy="900" r="50" fill="white" opacity="0.4"/>
-  <circle cx="1700" cy="920" r="45" fill="white" opacity="0.4"/>
+  <circle cx="150" cy="150" r="40" fill="#b388eb" opacity="0.2"/>
+  <circle cx="1770" cy="200" r="60" fill="#b388eb" opacity="0.2"/>
+  <circle cx="200" cy="900" r="50" fill="#b388eb" opacity="0.2"/>
+  <circle cx="1700" cy="920" r="45" fill="#b388eb" opacity="0.2"/>
   
   <!-- 装饰星星 -->
-  <path d="M 120 80 L 130 110 L 160 110 L 135 130 L 145 160 L 120 140 L 95 160 L 105 130 L 80 110 L 110 110 Z" fill="#8888dd" opacity="0.3"/>
-  <path d="M 1750 800 L 1760 820 L 1785 820 L 1765 835 L 1772 858 L 1750 843 L 1728 858 L 1735 835 L 1715 820 L 1740 820 Z" fill="#8888dd" opacity="0.3"/>
+  <path d="M 120 80 L 130 110 L 160 110 L 135 130 L 145 160 L 120 140 L 95 160 L 105 130 L 80 110 L 110 110 Z" fill="#8e44ad" opacity="0.2"/>
+  <path d="M 1750 800 L 1760 820 L 1785 820 L 1765 835 L 1772 858 L 1750 843 L 1728 858 L 1735 835 L 1715 820 L 1740 820 Z" fill="#8e44ad" opacity="0.2"/>
   
   <!-- 主标题 -->
-  <text x="550" y="450" font-size="160" font-weight="bold" text-anchor="middle" fill="#5a5a8a">聪明格</text>
+  <text x="500" y="480" font-size="160" font-weight="bold" text-anchor="middle" fill="#6a4c93">聪明格</text>
   
   <!-- 副标题 -->
-  <text x="550" y="560" font-size="48" text-anchor="middle" fill="#6a6a9a" opacity="0.9">KenKen经典逻辑推理 · 聪明格</text>
+  <text x="500" y="580" font-size="48" text-anchor="middle" fill="#8a6c8a" opacity="0.9">经典逻辑推理游戏</text>
   
   <!-- 描述 -->
-  <text x="550" y="630" font-size="30" text-anchor="middle" fill="#7a7aaa" opacity="0.85">锻炼思维 · 挑战智力 · 治愈放空</text>
+  <text x="500" y="650" font-size="30" text-anchor="middle" fill="#9a7c9a" opacity="0.85">锻炼思维 · 挑战智力 · 治愈放空</text>
   
   <!-- 难度标签 -->
-  <g opacity="0.95" transform="translate(0, 680)">
-    <rect x="300" y="0" width="100" height="48" rx="24" fill="white"/>
-    <text x="350" y="33" font-size="22" text-anchor="middle" fill="#8EC5FC">入门 🟢</text>
+  <g opacity="0.95" transform="translate(0, 700)">
+    <rect x="250" y="0" width="100" height="48" rx="24" fill="white"/>
+    <text x="300" y="33" font-size="22" text-anchor="middle" fill="#b388eb">入门 🟢</text>
     
-    <rect x="420" y="0" width="100" height="48" rx="24" fill="white"/>
-    <text x="470" y="33" font-size="22" text-anchor="middle" fill="#8EC5FC">中等 🟡</text>
+    <rect x="370" y="0" width="100" height="48" rx="24" fill="white"/>
+    <text x="420" y="33" font-size="22" text-anchor="middle" fill="#b388eb">中等 🟡</text>
     
-    <rect x="540" y="0" width="100" height="48" rx="24" fill="white"/>
-    <text x="590" y="33" font-size="22" text-anchor="middle" fill="#8EC5FC">困难 🟠</text>
+    <rect x="490" y="0" width="100" height="48" rx="24" fill="white"/>
+    <text x="540" y="33" font-size="22" text-anchor="middle" fill="#b388eb">困难 🟠</text>
     
-    <rect x="660" y="0" width="100" height="48" rx="24" fill="white"/>
-    <text x="710" y="33" font-size="22" text-anchor="middle" fill="#8EC5FC">专家 🔴</text>
+    <rect x="610" y="0" width="100" height="48" rx="24" fill="white"/>
+    <text x="660" y="33" font-size="22" text-anchor="middle" fill="#b388eb">专家 🔴</text>
   </g>
   
-  <!-- 可爱小象放在右侧 -->
-  <g transform="translate(1100, 320) scale(0.75)">
-    <!-- 直接保留构图，这里会保持小象风格和图标一致 -->
-    <!-- 装饰背景圆形衬托小象 -->
-    <circle cx="200" cy="200" r="220" fill="white" opacity="0.5"/>
-  </g>
+  <!-- 右侧留出给小象位置，浅色圆形衬托 -->
+  <circle cx="1200" cy="480" r="280" fill="white" opacity="0.4"/>
   
   <!-- 漂浮小花朵 -->
   <g transform="translate(150, 500)">
-    <circle cx="0" cy="0" r="18" fill="#ffd6e0" opacity="0.8"/>
-    <circle cx="-22" cy="-22" r="12" fill="#ffd6e0" opacity="0.8"/>
-    <circle cx="22" cy="-22" r="12" fill="#ffd6e0" opacity="0.8"/>
-    <circle cx="-22" cy="22" r="12" fill="#ffd6e0" opacity="0.8"/>
-    <circle cx="22" cy="22" r="12" fill="#ffd6e0" opacity="0.8"/>
+    <circle cx="0" cy="0" r="18" fill="#f8c8dc" opacity="0.8"/>
+    <circle cx="-22" cy="-22" r="12" fill="#f8c8dc" opacity="0.8"/>
+    <circle cx="22" cy="-22" r="12" fill="#f8c8dc" opacity="0.8"/>
+    <circle cx="-22" cy="22" r="12" fill="#f8c8dc" opacity="0.8"/>
+    <circle cx="22" cy="22" r="12" fill="#f8c8dc" opacity="0.8"/>
     <circle cx="0" cy="0" r="8" fill="#fff" opacity="1"/>
   </g>
   
   <g transform="translate(1700, 400)">
-    <circle cx="0" cy="0" r="15" fill="#d4f1f4" opacity="0.8"/>
-    <circle cx="-18" cy="-18" r="10" fill="#d4f1f4" opacity="0.8"/>
-    <circle cx="18" cy="-18" r="10" fill="#d4f1f4" opacity="0.8"/>
-    <circle cx="-18" cy="18" r="10" fill="#d4f1f4" opacity="0.8"/>
-    <circle cx="18" cy="18" r="10" fill="#d4f1f4" opacity="0.8"/>
+    <circle cx="0" cy="0" r="15" fill="#e1bee7" opacity="0.8"/>
+    <circle cx="-18" cy="-18" r="10" fill="#e1bee7" opacity="0.8"/>
+    <circle cx="18" cy="-18" r="10" fill="#e1bee7" opacity="0.8"/>
+    <circle cx="-18" cy="18" r="10" fill="#e1bee7" opacity="0.8"/>
+    <circle cx="18" cy="18" r="10" fill="#e1bee7" opacity="0.8"/>
     <circle cx="0" cy="0" r="6" fill="#fff" opacity="1"/>
   </g>
   
   <!-- 装饰数字 -->
-  <text x="120" y="200" font-size="90" fill="#8888dd" opacity="0.2">3</text>
-  <text x="1780" y="200" font-size="90" fill="#8888dd" opacity="0.2">5</text>
-  <text x="120" y="950" font-size="90" fill="#8888dd" opacity="0.2">7</text>
-  <text x="1780" y="950" font-size="90" fill="#8888dd" opacity="0.2">9</text>
+  <text x="120" y="200" font-size="90" fill="#8e44ad" opacity="0.15">3</text>
+  <text x="1780" y="200" font-size="90" fill="#8e44ad" opacity="0.15">5</text>
+  <text x="120" y="950" font-size="90" fill="#8e44ad" opacity="0.15">7</text>
+  <text x="1780" y="950" font-size="90" fill="#8e44ad" opacity="0.15">9</text>
 </svg>

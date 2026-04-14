@@ -25,10 +25,10 @@
   <path d="M 1750 800 L 1760 820 L 1785 820 L 1765 835 L 1772 858 L 1750 843 L 1728 858 L 1735 835 L 1715 820 L 1740 820 Z" fill="white" opacity="0.5"/>
   
   <!-- 标题 -->
-  <text x="600" y="480" font-size="180" font-weight="bold" text-anchor="middle" fill="url(#titleGradient)">KenKen</text>
+  <text x="600" y="480" font-size="180" font-weight="bold" text-anchor="middle" fill="url(#titleGradient)">聪明格</text>
   
   <!-- 副标题 -->
-  <text x="600" y="600" font-size="56" text-anchor="middle" fill="white" opacity="0.95">聪明格 · 经典逻辑推理游戏</text>
+  <text x="600" y="600" font-size="56" text-anchor="middle" fill="white" opacity="0.95">KenKen · 经典逻辑推理游戏</text>
   
   <!-- 描述 -->
   <text x="600" y="670" font-size="32" text-anchor="middle" fill="white" opacity="0.85">锻炼思维 · 挑战智力 · 治愈放空</text>

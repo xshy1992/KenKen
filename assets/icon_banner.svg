@@ -25,10 +25,10 @@
   <path d="M 1300 1100 L 1310 1120 L 1335 1120 L 1315 1135 L 1322 1158 L 1300 1143 L 1278 1158 L 1285 1135 L 1265 1120 L 1290 1120 Z" fill="white" opacity="0.5"/>
   
   <!-- 标题 -->
-  <text x="720" y="400" font-size="180" font-weight="bold" text-anchor="middle" fill="url(#titleGradient)">KenKen</text>
+  <text x="720" y="400" font-size="180" font-weight="bold" text-anchor="middle" fill="url(#titleGradient)">聪明格</text>
   
   <!-- 副标题 -->
-  <text x="720" y="520" font-size="52" text-anchor="middle" fill="white" opacity="0.95">聪明格</text>
+  <text x="720" y="520" font-size="52" text-anchor="middle" fill="white" opacity="0.95">KenKen</text>
   
   <!-- 描述 -->
   <text x="720" y="600" font-size="30" text-anchor="middle" fill="white" opacity="0.85">经典逻辑推理游戏</text>

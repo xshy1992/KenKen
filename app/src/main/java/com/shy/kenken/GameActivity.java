@@ -370,9 +370,79 @@ public class GameActivity extends AppCompatActivity {
     private void checkComplete() {
         if (puzzle.isComplete()) {
             stopTimer();
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            int totalSeconds = (int) (elapsedTime / 1000);
+            int minutes = totalSeconds / 60;
+            int hours = minutes / 60;
+            minutes = minutes % 60;
+            int seconds = totalSeconds % 60;
+            
+            String timeStr;
+            if (hours > 0) {
+                timeStr = String.format("%d小时%d分%d秒", hours, minutes, seconds);
+            } else if (minutes > 0) {
+                timeStr = String.format("%d分%d秒", minutes, seconds);
+            } else {
+                timeStr = String.format("%d秒", seconds);
+            }
+            
+            String title;
+            String message;
+            
+            // 根据难度(size)和用时给出不同文案，提供情绪价值
+            if (size <= 3) {
+                // 入门难度
+                if (totalSeconds < 60) {
+                    title = "🚀 神速完成！";
+                    message = String.format("太棒了！你仅用%s就通关了%d×%d的聪明格\n不愧是天才！🎉", timeStr, size, size);
+                } else if (totalSeconds < 180) {
+                    title = "🎉 恭喜通关！";
+                    message = String.format("完美解决！你用%s完成了%d×%d的入门挑战\n新手村毕业啦！👍", timeStr, size, size);
+                } else {
+                    title = "👏 成功过关！";
+                    message = String.format("恭喜你完成了%d×%d的聪明格\n坚持就是胜利，太棒了！✨", size, size);
+                }
+            } else if (size <= 5) {
+                // 中等难度
+                if (totalSeconds < 180) {
+                    title = "⚡ 太猛了！";
+                    message = String.format("%s就解决了%d×%d的题目\n这手速，这脑力，不服不行！🏆", timeStr, size, size);
+                } else if (totalSeconds < 480) {
+                    title = "🏅 挑战成功！";
+                    message = String.format("恭喜你，用%s完成了%d×%d的挑战\n逻辑满分，真棒！🎊", timeStr, size, size);
+                } else {
+                    title = "🎉 终于搞定啦！";
+                    message = String.format("恭喜你攻克了%d×%d的聪明格\n耗时%s，慢慢来也一样能成功！💪", size, size, timeStr);
+                }
+            } else if (size <= 7) {
+                // 较难难度
+                if (totalSeconds < 480) {
+                    title = "🔥 大神操作！";
+                    message = String.format("%s通关%d×%d，这是什么神仙实力\n简直是降维打击！👑", timeStr, size, size);
+                } else if (totalSeconds < 900) {
+                    title = "🏆 硬核通关！";
+                    message = String.format("恭喜大佬通关%d×%d难度\n用时%s，强大的逻辑思维！🥳", size, size, timeStr);
+                } else {
+                    title = "💪 恭喜攻克！";
+                    message = String.format("不容易！你终于解决了%d×%d的难题\n耗时%s，你真的超有耐心超棒的！🌟", size, size, timeStr);
+                }
+            } else {
+                // 8x9 超高难度
+                if (totalSeconds < 900) {
+                    title = "👑 神仙下凡！";
+                    message = String.format("%s解决%d×%d？你是人类吗\n这已经是顶级水平了！🤯", timeStr, size, size);
+                } else if (totalSeconds < 1800) {
+                    title = "👑 传奇通关！";
+                    message = String.format("居然真的被你通关了%d×%d\n用时%s，大佬请受我一拜！🙇", size, size, timeStr);
+                } else {
+                    title = "🌟 史诗完成！";
+                    message = String.format("恭喜你！征服了最难的%d×%d聪明格\n耗时%s，能坚持下来你就是赢家！🏅", size, size, timeStr);
+                }
+            }
+            
             new AlertDialog.Builder(this)
-                .setTitle("恭喜！")
-                .setMessage("你成功完成了" + size + "x" + size + "的聪明格！")
+                .setTitle(title)
+                .setMessage(message)
                 .setPositiveButton("完成", (dialog, which) -> finish())
                 .setNegativeButton("新游戏", (dialog, which) -> {
                     // 重新生成新游戏

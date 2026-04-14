@@ -27,8 +27,8 @@
   <text x="720" y="400" font-size="48" text-anchor="middle" fill="#6a6a9a" opacity="0.9">KenKen</text>
   
   <!-- 描述 -->
-  <text x="720" y="480" font-size="28" text-anchor="middle" fill="#7a7aaa" opacity="0.85">经典逻辑推理游戏</text>
-  <text x="720" y="530" font-size="24" text-anchor="middle" fill="#7a7aaa" opacity="0.8">锻炼思维 · 治愈放空</text>
+  <text x="720" y="460" font-size="28" text-anchor="middle" fill="#7a7aaa" opacity="0.85">聪明格 · 经典逻辑推理游戏</text>
+  <text x="720" y="505" font-size="24" text-anchor="middle" fill="#7a7aaa" opacity="0.8">锻炼思维 · 治愈放空</text>
   
   <!-- 圆形衬托区域放小象风格 -->
   <circle cx="720" cy="820" r="280" fill="white" opacity="0.5"/>

@@ -233,22 +233,66 @@ public class PuzzleGenerator {
     }
     
     private void addCluesUntilUniqueSolution(Puzzle puzzle, int[][] solution) {
-        // 只填充单格cage（操作符为'#'），多格cage永远不填充
-        // 符合要求：默认只填充单格，多格不参与默认填充
+        // 第一步：填充所有单格cage作为初始提示
         for (Cage cage : puzzle.cages) {
             if (cage.size() == 1) {
-                // 单格cage，填充其目标值
                 Cell cell = cage.cells.get(0);
                 cell.value = solution[cell.row][cell.col];
             }
         }
+        
+        // 第二步：检查是否已经唯一解，如果是则完成
+        if (hasUniqueSolution(puzzle)) {
+            return;
+        }
+        
+        // 第三步：如果不唯一，随机添加额外提示单元格，直到获得唯一解
+        List<Cell> emptyCells = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (puzzle.cells[i][j].value == 0) {
+                    emptyCells.add(puzzle.cells[i][j]);
+                }
+            }
+        }
+        
+        // 随机打乱空单元格顺序，保证每次生成不同题目
+        Collections.shuffle(emptyCells, random);
+        
+        // 逐步添加提示直到唯一解
+        for (Cell cell : emptyCells) {
+            // 添加这个单元格作为提示
+            cell.value = solution[cell.row][cell.col];
+            
+            // 检查是否现在有唯一解
+            if (hasUniqueSolution(puzzle)) {
+                return;
+            }
+        }
+        
+        // 如果所有单元格都填完了还不唯一（理论上不可能），至少保证有一个解
     }
     
     private boolean hasUniqueSolution(Puzzle puzzle) {
+        // 先保存当前单元格状态，检查完后恢复
+        int[][] savedValues = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                savedValues[i][j] = puzzle.cells[i][j].value;
+            }
+        }
+        
         // 使用回溯算法计算解的数量
-        // 如果超过1个解，返回false
         SolutionCounter counter = new SolutionCounter();
         countSolutions(puzzle, counter, 0, 0);
+        
+        // 恢复原始状态
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                puzzle.cells[i][j].value = savedValues[i][j];
+            }
+        }
+        
         return counter.count == 1;
     }
     
